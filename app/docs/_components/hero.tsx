@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Icons } from "./icons"
 import { useManifest } from "./manifest-provider"
 
-const HERO_CMD = "brew install getsentry/xcodebuildmcp/xcodebuildmcp"
+const HERO_CMD = "brew install getsentry/xcodebuildmcp/mobilebuildmcp"
 
 export function Hero() {
   const manifest = useManifest()
@@ -34,7 +34,7 @@ export function Hero() {
         </Link>
         <a
           className="btn-secondary"
-          href="https://github.com/getsentry/XcodeBuildMCP"
+          href="https://github.com/getsentry/MobileBuildMCP"
           target="_blank"
           rel="noreferrer"
         >

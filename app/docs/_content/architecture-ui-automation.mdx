@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Architecture", "UI Automation"]}
   title="UI Automation"
-  lede="How XcodeBuildMCP turns raw accessibility output into stable runtime snapshots, safe actions, post-action captures, and agent-oriented next-step guidance."
+  lede="How MobileBuildMCP turns raw accessibility output into stable runtime snapshots, safe actions, post-action captures, and agent-oriented next-step guidance."
 />
 
-UI automation is the part of XcodeBuildMCP where an agent can inspect an app, choose elements, and perform gestures without shelling out to Simulator or AXe directly. The contributor goal is not to make one app easy to drive. The goal is to preserve an app-agnostic model of what the UI exposes, what actions are valid, and which follow-up actions are most useful.
+UI automation is the part of MobileBuildMCP where an agent can inspect an app, choose elements, and perform gestures without shelling out to Simulator or AXe directly. The contributor goal is not to make one app easy to drive. The goal is to preserve an app-agnostic model of what the UI exposes, what actions are valid, and which follow-up actions are most useful.
 
 This page documents the end-to-end flow, the domain model, and the business rules that keep UI automation predictable.
 
@@ -14,7 +14,7 @@ This page documents the end-to-end flow, the domain model, and the business rule
 
 - **AXe**: The bundled accessibility helper that returns raw accessibility hierarchy and performs low-level UI actions.
 - **raw accessibility hierarchy**: The JSON tree returned by AXe. It can include nested children, frames, labels, values, identifiers, roles, state, and custom actions.
-- **runtime snapshot**: XcodeBuildMCP's normalized, public, model-facing UI state. It contains refs, roles, frames, actions, text, screen hash, and sequence. Normal output renders a compact projection; CLI JSON `--verbose` can expose the full public `elements` and `actions` arrays.
+- **runtime snapshot**: MobileBuildMCP's normalized, public, model-facing UI state. It contains refs, roles, frames, actions, text, screen hash, and sequence. Normal output renders a compact projection; CLI JSON `--verbose` can expose the full public `elements` and `actions` arrays.
 - **element ref**: A short per-snapshot identifier such as `e18`. It is only valid for the runtime process and snapshot sequence that produced it.
 - **runtime snapshot store**: The in-memory per-simulator record that maps refs back to private metadata and raw nodes for action execution within the current runtime process.
 - **action result**: The structured result from `tap`, `swipe`, `type_text`, `batch`, and related tools. It includes the action outcome and, when available, a post-action runtime snapshot.
@@ -102,7 +102,7 @@ Action execution validates that:
 - the element is visible enough for the action,
 - the action point or swipe path is non-degenerate.
 
-For `swipe`, the optional `distance` parameter is a normalized fraction greater than 0 and up to 1 of the safe target stroke. For example, `0.5` uses half of the computed safe stroke and `0.8` uses a longer stroke. XcodeBuildMCP computes the final endpoints and does not forward this public value as AXe `--delta`.
+For `swipe`, the optional `distance` parameter is a normalized fraction greater than 0 and up to 1 of the safe target stroke. For example, `0.5` uses half of the computed safe stroke and `0.8` uses a longer stroke. MobileBuildMCP computes the final endpoints and does not forward this public value as AXe `--delta`.
 
 If validation fails, the tool returns a structured recovery error instead of guessing another element.
 
@@ -284,12 +284,12 @@ Business rules:
 
 ## Structured output contract
 
-The UI automation tools return structured output under the normal XcodeBuildMCP envelope.
+The UI automation tools return structured output under the normal MobileBuildMCP envelope.
 
 Relevant schemas:
 
-- `xcodebuildmcp.output.capture-result`
-- `xcodebuildmcp.output.ui-action-result`
+- `mobilebuildmcp.output.capture-result`
+- `mobilebuildmcp.output.ui-action-result`
 
 Contributor rules:
 

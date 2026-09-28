@@ -9,7 +9,7 @@
 3. Tool factory list missed session-aware variants. Fixed.
 4. Next-step "tools do not hand-write follow-up instructions" claim was too absolute. Fixed.
 5. Daemon idle-shutdown wording was too narrow. Fixed.
-6. `liveProgressEnabled` and `streamingFragmentsEnabled` were undocumented booleans on `ToolHandlerContext`. Fields removed from the doc; code-level removal tracked in [getsentry/XcodeBuildMCP#360](https://github.com/getsentry/XcodeBuildMCP/issues/360).
+6. `liveProgressEnabled` and `streamingFragmentsEnabled` were undocumented booleans on `ToolHandlerContext`. Fields removed from the doc; code-level removal tracked in [getsentry/MobileBuildMCP#360](https://github.com/getsentry/MobileBuildMCP/issues/360).
 
 All other claims (manifest layout, workflow selection, rendering strategies, streaming taxonomy, build pipeline) checked out against the code and required no changes.
 
@@ -19,14 +19,14 @@ The architecture page makes many specific code-level claims (module paths, funct
 
 ## Background / Prior Research
 
-Not needed. This audit is entirely in-workspace verification of doc claims against `XcodeBuildMCP/` source.
+Not needed. This audit is entirely in-workspace verification of doc claims against `MobileBuildMCP/` source.
 
 ## Investigator Findings
 
 ### Verified accurate (no change needed)
 
 - Two runtimes share one tool implementation layer. Same `toolModule.handler` is used by MCP and CLI/daemon. (`src/utils/tool-registry.ts:288-301`, `src/runtime/tool-catalog.ts:124-149`)
-- `xcodebuildmcp mcp` is the MCP entry. (`src/cli.ts:82-87`, `src/cli/commands/mcp.ts:6-10`)
+- `mobilebuildmcp mcp` is the MCP entry. (`src/cli.ts:82-87`, `src/cli/commands/mcp.ts:6-10`)
 - Manifest dirs and field schemas: `manifests/tools/`, `manifests/workflows/`, `manifests/resources/` with the exact field sets the doc lists. (`src/core/manifest/load-manifest.ts:64-69,166-169`, `src/core/manifest/schema.ts:80-119,144-168,188-220`)
 - `loadManifest()` reads YAML and validates with Zod. (`src/core/manifest/load-manifest.ts:28-48,72-117,169-198`)
 - `importToolModule()` lazily imports tool modules from manifest `module` paths. (`src/core/manifest/import-tool-module.ts:26-45`)
@@ -45,7 +45,7 @@ Not needed. This audit is entirely in-workspace verification of doc claims again
 - MCP `--output json` waits for structured output before printing; `jsonl` writes fragments as they arrive without final response. (`src/cli/register-tool-commands.ts:347-358`)
 - `postProcessSession()` resolves templates after handler completes, filters success/failure, merges runtime params, normalizes names, attaches steps. (`src/runtime/tool-invoker.ts:25-194,464-469`)
 - CLI vs MCP next-step formatting differs at the runtime boundary. (`src/runtime/tool-invoker.ts:193-194,463-468`, `src/utils/tool-registry.ts:306-312`)
-- Daemon socket path is `~/.xcodebuildmcp/daemons/<workspace-key>/daemon.sock`, overridable by `XCODEBUILDMCP_SOCKET`. (`src/daemon/socket-path.ts:6-13,26-38,48-58`)
+- Daemon socket path is `~/.mobilebuildmcp/daemons/<workspace-key>/daemon.sock`, overridable by `MOBILEBUILDMCP_SOCKET`. (`src/daemon/socket-path.ts:6-13,26-38,48-58`)
 - Daemon auto-starts on first stateful invocation. (`src/runtime/tool-invoker.ts:389-441`, `src/cli/daemon-control.ts:113-144`)
 - Workspace identity derived from project config location or cwd. (`src/daemon/socket-path.ts:14-24`)
 - 10-minute default idle timeout. (`src/daemon/idle-shutdown.ts:3-4`)
@@ -58,7 +58,7 @@ Not needed. This audit is entirely in-workspace verification of doc claims again
 
 #### Finding 1: CLI entry pattern omits top-level commands
 
-**Claim:** "CLI: `xcodebuildmcp <workflow> <tool>`"
+**Claim:** "CLI: `mobilebuildmcp <workflow> <tool>`"
 
 **Reality:** The CLI registers the workflow command tree alongside several non-workflow top-level commands. Verified in `src/cli/yargs-app.ts:75-95`:
 
@@ -147,11 +147,11 @@ if (hasActiveRuntimeSessions(...)) return;    // (3) no active runtime sessions
 
 In most boundaries they track each other (both true for CLI text/jsonl, both false for MCP and CLI json/raw). They diverge in the daemon case (`src/daemon/daemon-server.ts:181-182`): `liveProgressEnabled: false` (the daemon does not render its own progress) and `streamingFragmentsEnabled: true` (it forwards fragments back to the CLI client over the daemon protocol, which then renders them).
 
-**Correction:** Drop both fields from the documented `ToolHandlerContext` shape rather than explaining them. They are slated for removal from the API itself in [getsentry/XcodeBuildMCP#360](https://github.com/getsentry/XcodeBuildMCP/issues/360); documenting dead/about-to-be-removed surface area is worse than omitting it. **Status (2026-04-25): applied** — the interface block in `architecture.mdx` no longer references these fields.
+**Correction:** Drop both fields from the documented `ToolHandlerContext` shape rather than explaining them. They are slated for removal from the API itself in [getsentry/MobileBuildMCP#360](https://github.com/getsentry/MobileBuildMCP/issues/360); documenting dead/about-to-be-removed surface area is worse than omitting it. **Status (2026-04-25): applied** — the interface block in `architecture.mdx` no longer references these fields.
 
 ### Additional gap (worth mentioning, not blocking)
 
-The architecture doc does not mention the `XCODEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS` env var, which overrides the 10-minute default (`src/daemon/idle-shutdown.ts:3-22`). This is a nicety; including it would make the daemon facts row complete.
+The architecture doc does not mention the `MOBILEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS` env var, which overrides the 10-minute default (`src/daemon/idle-shutdown.ts:3-22`). This is a nicety; including it would make the daemon facts row complete.
 
 ## Investigation Log
 
@@ -174,7 +174,7 @@ The architecture doc does not mention the `XCODEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS`
 - `src/cli/yargs-app.ts:75-95` registers six top-level commands plus the workflow tool tree.
 - `src/daemon.ts:337-358` confirms three idle-check conditions: time, in-flight requests, active runtime sessions.
 - `src/rendering/types.ts:37-45` confirms `ToolHandlerContext.nextSteps?` exists, supporting handler-set follow-ups.
-- `src/daemon/socket-path.ts:53-58` confirms `XCODEBUILDMCP_SOCKET` override.
+- `src/daemon/socket-path.ts:53-58` confirms `MOBILEBUILDMCP_SOCKET` override.
 **Conclusion:** All five oracle-flagged inaccuracies confirmed against source.
 
 ## Root Cause
@@ -188,10 +188,10 @@ Apply these six textual corrections to `xcodebuildmcp.com/app/docs/_content/arch
 ### 1. CLI runtime row in "The two runtimes" table
 
 **Current** (entry point cell):
-> `xcodebuildmcp <workflow> <tool>`
+> `mobilebuildmcp <workflow> <tool>`
 
 **Replace with:**
-> `xcodebuildmcp <workflow> <tool>` for tool invocations. Top-level commands such as `mcp`, `init`, `setup`, `upgrade`, `tools`, and `daemon` are also registered.
+> `mobilebuildmcp <workflow> <tool>` for tool invocations. Top-level commands such as `mcp`, `init`, `setup`, `upgrade`, `tools`, and `daemon` are also registered.
 
 ### 2. Runtime availability row in "Workflow selection" table
 
@@ -223,7 +223,7 @@ Apply these six textual corrections to `xcodebuildmcp.com/app/docs/_content/arch
 > The daemon shuts down after 10 minutes idle by default, when no stateful sessions are active.
 
 **Replace with:**
-> The daemon shuts down after 10 minutes idle by default (overridable via `XCODEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS`), once no in-flight requests are pending and no active runtime sessions remain.
+> The daemon shuts down after 10 minutes idle by default (overridable via `MOBILEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS`), once no in-flight requests are pending and no active runtime sessions remain.
 
 ### 6. ToolHandlerContext interface block
 

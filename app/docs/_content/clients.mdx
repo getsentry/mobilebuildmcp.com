@@ -94,18 +94,18 @@ import { PageHeader } from "../_components/page-header"
   </a>
 </div>
 
-All examples below use the npx command. If you installed via Homebrew, replace `command` with `"xcodebuildmcp"` and `args` with `["mcp"]` to skip the npx download check on startup.
+All examples below use the npx command. If you installed via Homebrew, replace `command` with `"mobilebuildmcp"` and `args` with `["mcp"]` to skip the npx download check on startup.
 
 ## Claude Code
 
 ```bash
-claude mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp
+claude mcp add MobileBuildMCP -- npx -y mobilebuildmcp@latest mcp
 ```
 
 Or with env-based session defaults:
 
 ```bash
-claude mcp add XcodeBuildMCP -e XCODEBUILDMCP_SENTRY_DISABLED=false -- npx -y xcodebuildmcp@latest mcp
+claude mcp add MobileBuildMCP -e MOBILEBUILDMCP_SENTRY_DISABLED=false -- npx -y mobilebuildmcp@latest mcp
 ```
 
 ## Cursor
@@ -115,24 +115,24 @@ Project-scoped (recommended): create `.cursor/mcp.json` in your workspace root:
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
 ```
 
-For global Cursor config at `~/.cursor/mcp.json`, set `XCODEBUILDMCP_CWD` so startup runs from the active workspace:
+For global Cursor config at `~/.cursor/mcp.json`, set `MOBILEBUILDMCP_CWD` so startup runs from the active workspace:
 
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"],
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"],
       "env": {
-        "XCODEBUILDMCP_CWD": "${workspaceFolder}"
+        "MOBILEBUILDMCP_CWD": "${workspaceFolder}"
       }
     }
   }
@@ -144,23 +144,23 @@ For global Cursor config at `~/.cursor/mcp.json`, set `XCODEBUILDMCP_CWD` so sta
 Run inside your terminal:
 
 ```bash
-codex mcp add XcodeBuildMCP -- npx -y xcodebuildmcp@latest mcp
+codex mcp add MobileBuildMCP -- npx -y mobilebuildmcp@latest mcp
 ```
 
 Or edit `~/.codex/config.toml`:
 
 ```toml
-[mcp_servers.XcodeBuildMCP]
+[mcp_servers.MobileBuildMCP]
 command = "npx"
-args = ["-y", "xcodebuildmcp@latest", "mcp"]
+args = ["-y", "mobilebuildmcp@latest", "mcp"]
 ```
 
 If you hit `timed out awaiting tools/call after 60s`, `timed out awaiting tools/call after 120s`, or similar, set the timeout in the same server block:
 
 ```toml
-[mcp_servers.XcodeBuildMCP]
+[mcp_servers.MobileBuildMCP]
 command = "npx"
-args = ["-y", "xcodebuildmcp@latest", "mcp"]
+args = ["-y", "mobilebuildmcp@latest", "mcp"]
 tool_timeout_sec = 600
 ```
 
@@ -173,9 +173,9 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
@@ -189,9 +189,9 @@ Add to your VS Code settings JSON:
 {
   "mcp": {
     "servers": {
-      "XcodeBuildMCP": {
+      "MobileBuildMCP": {
         "command": "npx",
-        "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+        "args": ["-y", "mobilebuildmcp@latest", "mcp"]
       }
     }
   }
@@ -205,9 +205,9 @@ Workspace-scoped at `.kiro/settings/mcp.json`, or user-scoped at `~/.kiro/settin
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
@@ -220,9 +220,9 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
@@ -236,9 +236,9 @@ Add to your `opencode.json`:
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "type": "local",
-      "command": ["npx", "-y", "xcodebuildmcp@latest", "mcp"]
+      "command": ["npx", "-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
@@ -253,9 +253,9 @@ Add to `~/Library/Application Support/Trae/User/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }
@@ -266,10 +266,10 @@ Add to `~/Library/Application Support/Trae/User/mcp.json`:
 Requires **Xcode 26.3 or later** with the Codex agent installed under _Xcode Settings → Intelligence → Open AI_. At the time of writing, Xcode's Codex agent only supports a project-scoped `.codex/config.toml` at your project workspace root:
 
 ```toml
-[mcp_servers.XcodeBuildMCP]
+[mcp_servers.MobileBuildMCP]
 args = [
   "-lc",
-  "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y xcodebuildmcp@latest mcp"
+  "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y mobilebuildmcp@latest mcp"
 ]
 command = "/bin/zsh"
 enabled = true
@@ -293,11 +293,11 @@ Add or replace the `mcpServers` block:
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "/bin/zsh",
       "args": [
         "-lc",
-        "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y xcodebuildmcp@latest mcp"
+        "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y mobilebuildmcp@latest mcp"
       ]
     }
   }
@@ -309,7 +309,7 @@ Add or replace the `mcpServers` block:
 At the AdaL prompt:
 
 ```console
-/mcp add XcodeBuildMCP --command npx --args "-y,xcodebuildmcp@latest,mcp"
+/mcp add MobileBuildMCP --command npx --args "-y,mobilebuildmcp@latest,mcp"
 ```
 
 ## Verifying the connection

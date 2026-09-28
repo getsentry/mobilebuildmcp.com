@@ -4,10 +4,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Reference", "Xcode IDE Bridge"]}
   title="Xcode IDE Bridge"
-  lede="Proxy Xcode 26's built-in MCP service through XcodeBuildMCP to reach IDE-only tools like Preview rendering, Issue Navigator queries, and documentation search."
+  lede="Proxy Xcode 26's built-in MCP service through MobileBuildMCP to reach IDE-only tools like Preview rendering, Issue Navigator queries, and documentation search."
 />
 
-XcodeBuildMCP can optionally proxy Xcode's built-in MCP service via Xcode 26's `xcrun mcpbridge`. This exposes IDE-only tools that are not available via `xcodebuild`:
+MobileBuildMCP can optionally proxy Xcode's built-in MCP service via Xcode 26's `xcrun mcpbridge`. This exposes IDE-only tools that are not available via `xcodebuild`:
 
 - Preview rendering
 - Issue Navigator queries
@@ -19,22 +19,22 @@ XcodeBuildMCP can optionally proxy Xcode's built-in MCP service via Xcode 26's `
 
 - Xcode 26.3 or later
 - `mcpbridge` available at `xcrun mcpbridge` (shipped with Xcode)
-- XcodeBuildMCP with the `xcode-ide` workflow enabled
+- MobileBuildMCP with the `xcode-ide` workflow enabled
 
 ## Enable
 
-Add `xcode-ide` to `enabledWorkflows` in `.xcodebuildmcp/config.yaml`:
+Add `xcode-ide` to `enabledWorkflows` in `.mobilebuildmcp/config.yaml`:
 
 ```yaml
 schemaVersion: 1
 enabledWorkflows: ["simulator", "debugging", "xcode-ide"]
 ```
 
-If the workflow isn't enabled, XcodeBuildMCP doesn't start the bridge.
+If the workflow isn't enabled, MobileBuildMCP doesn't start the bridge.
 
 ## Tools exposed
 
-When `xcode-ide` is enabled and `mcpbridge` is available, XcodeBuildMCP exposes two gateway tools to MCP clients:
+When `xcode-ide` is enabled and `mcpbridge` is available, MobileBuildMCP exposes two gateway tools to MCP clients:
 
 | Tool | Purpose |
 |------|---------|
@@ -50,7 +50,7 @@ In CLI mode, proxied Xcode tools are exposed under dynamic `xcode_tools_*` names
 Xcode may show trust/allow prompts when the bridge connects and/or when tools are invoked. Recommended flow:
 
 1. Launch Xcode.
-2. Start XcodeBuildMCP with `xcode-ide` enabled.
+2. Start MobileBuildMCP with `xcode-ide` enabled.
 3. If `xcode_ide_list_tools` fails, enable `debug: true` in your config and call `xcode_tools_bridge_status` to inspect the bridge state; retry after approving prompts.
 
 ## Debug tools
@@ -63,12 +63,12 @@ The following are hidden unless you set `debug: true`, because they're primarily
 
 ## Targeting a specific Xcode
 
-If you have multiple Xcodes installed and need to scope the bridge to a specific one, set these env vars. XcodeBuildMCP forwards them to the bridge:
+If you have multiple Xcodes installed and need to scope the bridge to a specific one, set these env vars. MobileBuildMCP forwards them to the bridge:
 
 | Env var | Forwards as |
 |---------|-------------|
-| `XCODEBUILDMCP_XCODE_PID` | `MCP_XCODE_PID` |
-| `XCODEBUILDMCP_XCODE_SESSION_ID` | `MCP_XCODE_SESSION_ID` |
+| `MOBILEBUILDMCP_XCODE_PID` | `MCP_XCODE_PID` |
+| `MOBILEBUILDMCP_XCODE_SESSION_ID` | `MCP_XCODE_SESSION_ID` |
 
 ## Related
 

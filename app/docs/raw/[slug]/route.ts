@@ -202,7 +202,7 @@ export async function GET(req: Request, { params }: Params) {
   try {
     const res = await fetch(pageUrl, {
       headers: { "x-docs-raw": "1" },
-      next: { revalidate: 3600, tags: ["xcodebuildmcp-docs-raw"] },
+      next: { revalidate: 3600, tags: ["mobilebuildmcp-docs-raw"] },
     })
     if (!res.ok) throw new Error(`GET ${pageUrl} -> ${res.status}`)
     const html = await res.text()

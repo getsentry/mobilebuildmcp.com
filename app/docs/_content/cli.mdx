@@ -4,19 +4,19 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Usage", "CLI"]}
   title="CLI"
-  lede="Direct terminal access to every XcodeBuildMCP tool. Use it from scripts, CI, manual checks, or from coding agents that have shell access and want to compose, pipe, or script tool calls. Long-running operations stream live progress to stdout so callers get immediate feedback instead of blocking until the whole operation finishes."
+  lede="Direct terminal access to every MobileBuildMCP tool. Use it from scripts, CI, manual checks, or from coding agents that have shell access and want to compose, pipe, or script tool calls. Long-running operations stream live progress to stdout so callers get immediate feedback instead of blocking until the whole operation finishes."
 />
 
 ## Synopsis
 
 ```shell
-xcodebuildmcp <workflow> <tool> [options]
+mobilebuildmcp <workflow> <tool> [options]
 ```
 
 Each tool takes `--help` for flag details:
 
 ```shell
-xcodebuildmcp simulator build --help
+mobilebuildmcp simulator build --help
 ```
 
 ## Top-level commands
@@ -25,10 +25,10 @@ xcodebuildmcp simulator build --help
 |---------|--------------|
 | `mcp` | Start the MCP server on stdio. Used by MCP clients. |
 | `tools` | List every tool, grouped by workflow. |
-| `setup` | Interactive wizard to create or update `.xcodebuildmcp/config.yaml`. |
+| `setup` | Interactive wizard to create or update `.mobilebuildmcp/config.yaml`. |
 | `init` | Install the MCP or CLI agent skill (Claude Code, Cursor, Codex). |
 | `upgrade` | Self-update the CLI using the package manager it was installed with. |
-| `purge` | Report and clean XcodeBuildMCP-managed workspace storage. See [Storage Management](/docs/storage-management). |
+| `purge` | Report and clean MobileBuildMCP-managed workspace storage. See [Storage Management](/docs/storage-management). |
 | `simulator` | Build, install, launch, test, log capture on simulators. |
 | `device` | Install, launch, test on physical Apple devices. |
 | `macos` | Build, run, test macOS targets. |
@@ -38,32 +38,32 @@ xcodebuildmcp simulator build --help
 | `doctor` | Environment and capability report. Include its output on every issue. |
 | `daemon` | Inspect, start, stop the per-workspace daemon. |
 
-Run `xcodebuildmcp --help` for the full list.
+Run `mobilebuildmcp --help` for the full list.
 
 ## Passing arguments
 
 ```shell
 # As flags
-xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj
+mobilebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj
 
 # As JSON (useful for complex nested options)
-xcodebuildmcp simulator build --json '{"scheme":"MyApp","projectPath":"./MyApp.xcodeproj"}'
+mobilebuildmcp simulator build --json '{"scheme":"MyApp","projectPath":"./MyApp.xcodeproj"}'
 
 # Output format
-xcodebuildmcp simulator list --output json
+mobilebuildmcp simulator list --output json
 
 # File artifact layout in text/raw output
-xcodebuildmcp simulator build --file-path-render-style tree
+mobilebuildmcp simulator build --file-path-render-style tree
 ```
 
 `--file-path-render-style list|tree` overrides the text rendering style for file artifacts on one invocation. The default CLI text style is `list`; MCP text defaults to `tree`. JSON and JSONL output are unaffected.
 
 ## Session defaults auto-fill
 
-If your project has `.xcodebuildmcp/config.yaml` with `sessionDefaults` set, the CLI fills matching flags automatically:
+If your project has `.mobilebuildmcp/config.yaml` with `sessionDefaults` set, the CLI fills matching flags automatically:
 
 ```yaml
-# .xcodebuildmcp/config.yaml
+# .mobilebuildmcp/config.yaml
 schemaVersion: 1
 sessionDefaults:
   scheme: MyApp
@@ -73,10 +73,10 @@ sessionDefaults:
 
 ```shell
 # Before: flags on every invocation
-xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj
+mobilebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj
 
 # Now: flags come from session defaults
-xcodebuildmcp simulator build
+mobilebuildmcp simulator build
 ```
 
 This also works with named profiles for monorepos. Use `--profile <name>` to override the active profile for a single call. See [Session Defaults → Named profiles](/docs/session-defaults#named-profiles).
@@ -86,7 +86,7 @@ This also works with named profiles for monorepos. Use `--profile <name>` to ove
 ### Build for an iOS simulator
 
 ```shell
-xcodebuildmcp simulator build \
+mobilebuildmcp simulator build \
   --scheme MyApp \
   --project-path ./MyApp.xcodeproj \
   --simulator-name "iPhone 17 Pro"
@@ -95,7 +95,7 @@ xcodebuildmcp simulator build \
 ### Build and run in one step
 
 ```shell
-xcodebuildmcp simulator build-and-run \
+mobilebuildmcp simulator build-and-run \
   --scheme MyApp \
   --project-path ./MyApp.xcodeproj
 ```
@@ -103,7 +103,7 @@ xcodebuildmcp simulator build-and-run \
 Pass launch arguments with `launchArgs` on build-and-run tools (`simulator build-and-run`, `device build-and-run`, `macos build-and-run`) and launch-only tools (`simulator launch-app`, `device launch`, `macos launch`). Keep `extraArgs` for `xcodebuild` flags and build settings overrides; those values are not passed to the app process.
 
 ```shell
-xcodebuildmcp simulator build-and-run --json '{
+mobilebuildmcp simulator build-and-run --json '{
   "scheme": "MyApp",
   "projectPath": "./MyApp.xcodeproj",
   "simulatorName": "iPhone 17 Pro",
@@ -114,7 +114,7 @@ xcodebuildmcp simulator build-and-run --json '{
 ### Build and run on a physical device with runtime args
 
 ```shell
-xcodebuildmcp device build-and-run --json '{
+mobilebuildmcp device build-and-run --json '{
   "scheme": "MyApp",
   "projectPath": "./MyApp.xcodeproj",
   "deviceId": "<DEVICE_UDID>",
@@ -125,7 +125,7 @@ xcodebuildmcp device build-and-run --json '{
 ### Build and run on macOS with runtime args
 
 ```shell
-xcodebuildmcp macos build-and-run --json '{
+mobilebuildmcp macos build-and-run --json '{
   "scheme": "MyApp",
   "projectPath": "./MyApp.xcodeproj",
   "launchArgs": ["--uitesting"]
@@ -135,7 +135,7 @@ xcodebuildmcp macos build-and-run --json '{
 ### Launch an installed simulator app with runtime args
 
 ```shell
-xcodebuildmcp simulator launch-app --json '{
+mobilebuildmcp simulator launch-app --json '{
   "simulatorId": "<SIMULATOR_UDID>",
   "bundleId": "com.example.MyApp",
   "launchArgs": ["--uitesting"]
@@ -145,7 +145,7 @@ xcodebuildmcp simulator launch-app --json '{
 ### Run XCTests with pre-resolved test cases and live progress
 
 ```shell
-xcodebuildmcp simulator test --json '{
+mobilebuildmcp simulator test --json '{
   "workspacePath": "./MyApp.xcworkspace",
   "scheme": "MyApp",
   "simulatorName": "iPhone 17 Pro",
@@ -159,7 +159,7 @@ xcodebuildmcp simulator test --json '{
 Useful for bug reports, demos, and agent-run UI flows. Video capture runs through the daemon as a stateful session.
 
 ```shell
-xcodebuildmcp simulator record-video \
+mobilebuildmcp simulator record-video \
   --simulator-id <UDID> \
   --output-path ./session.mp4
 ```
@@ -180,12 +180,12 @@ See <Link href="/docs/output-formats">Output Formats</Link> for the envelope and
 
 ## Keeping the CLI up to date
 
-Run `xcodebuildmcp upgrade` to check for a newer version and install it in place. No need to remember whether you installed via Homebrew or npm, the command figures that out and runs the right upgrade for you.
+Run `mobilebuildmcp upgrade` to check for a newer version and install it in place. No need to remember whether you installed via Homebrew or npm, the command figures that out and runs the right upgrade for you.
 
 ```shell
-xcodebuildmcp upgrade           # show current vs latest, release notes, and confirm
-xcodebuildmcp upgrade --check   # just tell me if there's an update, don't prompt
-xcodebuildmcp upgrade --yes     # upgrade without asking
+mobilebuildmcp upgrade           # show current vs latest, release notes, and confirm
+mobilebuildmcp upgrade --check   # just tell me if there's an update, don't prompt
+mobilebuildmcp upgrade --yes     # upgrade without asking
 ```
 
 If you installed via `npx`, the command will tell you how to pick up the latest version the next time you invoke it (npx installs are ephemeral, so there's nothing to upgrade in place).
@@ -194,50 +194,50 @@ In CI or other non-interactive contexts, pass `--check` or `--yes`. Without eith
 
 ## Per-workspace daemon
 
-Some XcodeBuildMCP tools need to keep state between commands (for example log capture, video recording, LLDB debugging, and background Swift Package runs). To do that, XcodeBuildMCP uses a background process.
+Some MobileBuildMCP tools need to keep state between commands (for example log capture, video recording, LLDB debugging, and background Swift Package runs). To do that, MobileBuildMCP uses a background process.
 
-XcodeBuildMCP auto-starts a small scoped background process (a daemon) the first time one of those tools runs. That daemon survives between CLI invocations, so follow-up commands can continue the same stateful session.
+MobileBuildMCP auto-starts a small scoped background process (a daemon) the first time one of those tools runs. That daemon survives between CLI invocations, so follow-up commands can continue the same stateful session.
 
 Lifecycle and scope:
 
 - **Auto-start**: starts on the first stateful tool call. No manual setup required.
 - **Auto-shutdown**: stops after 10 minutes of idle time.
-- **Workspace scoping**: each daemon is scoped per workspace. If `.xcodebuildmcp/config.yaml` exists, XcodeBuildMCP uses that file's project location to identify the workspace. If not, it uses your current directory.
+- **Workspace scoping**: each daemon is scoped per workspace. If `.mobilebuildmcp/config.yaml` exists, MobileBuildMCP uses that file's project location to identify the workspace. If not, it uses your current directory.
 
 ### Daemon commands
 
 ```shell
-xcodebuildmcp daemon status
-xcodebuildmcp daemon start
-xcodebuildmcp daemon stop
-xcodebuildmcp daemon restart
-xcodebuildmcp daemon list
-xcodebuildmcp daemon list --json
-xcodebuildmcp daemon logs
+mobilebuildmcp daemon status
+mobilebuildmcp daemon start
+mobilebuildmcp daemon stop
+mobilebuildmcp daemon restart
+mobilebuildmcp daemon list
+mobilebuildmcp daemon list --json
+mobilebuildmcp daemon logs
 ```
 
 Reference details:
 
-- **Socket path**: `~/.xcodebuildmcp/daemons/<workspace-key>/daemon.sock`
+- **Socket path**: `~/.mobilebuildmcp/daemons/<workspace-key>/daemon.sock`
 - **Workspace identity key**: `<workspace-key>` is derived from the workspace root path.
 
 ### Troubleshooting the daemon
 
 ```shell
 # See logs in the foreground
-xcodebuildmcp daemon start --foreground
+mobilebuildmcp daemon start --foreground
 
 # Extend startup timeout
-export XCODEBUILDMCP_STARTUP_TIMEOUT_MS=10000
+export MOBILEBUILDMCP_STARTUP_TIMEOUT_MS=10000
 
 # Socket permission issues
-chmod 700 ~/.xcodebuildmcp
-chmod -R 700 ~/.xcodebuildmcp/daemons
+chmod 700 ~/.mobilebuildmcp
+chmod -R 700 ~/.mobilebuildmcp/daemons
 ```
 
 ## CLI vs MCP mode
 
-| | CLI | MCP (`xcodebuildmcp mcp`) |
+| | CLI | MCP (`mobilebuildmcp mcp`) |
 |---|-----|---------------------------|
 | Invocation | Direct terminal | MCP client over stdio |
 | Session state | Stateless direct + daemon for stateful tools | In-process |

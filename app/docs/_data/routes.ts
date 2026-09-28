@@ -108,14 +108,14 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "installation",
     title: "Installation",
     group: "Getting Started",
-    description: "Install XcodeBuildMCP via Homebrew or npm.",
+    description: "Install MobileBuildMCP via Homebrew or npm.",
   },
   setup: {
     slug: "setup",
     title: "Setup",
     group: "Getting Started",
     description:
-      "Wire XcodeBuildMCP into your editor, configure your project, and run your first build.",
+      "Wire MobileBuildMCP into your editor, configure your project, and run your first build.",
   },
   clients: {
     slug: "clients",
@@ -128,13 +128,13 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "cli",
     title: "CLI",
     group: "Usage",
-    description: "Direct terminal access to every XcodeBuildMCP tool.",
+    description: "Direct terminal access to every MobileBuildMCP tool.",
   },
   "storage-management": {
     slug: "storage-management",
     title: "Storage Management",
     group: "Guides",
-    description: "Review and clean XcodeBuildMCP-managed workspace storage.",
+    description: "Review and clean MobileBuildMCP-managed workspace storage.",
   },
   "mcp-mode": {
     slug: "mcp-mode",
@@ -146,19 +146,19 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "workflows",
     title: "Workflows",
     group: "Reference",
-    description: "The catalog of tool groups XcodeBuildMCP exposes through MCP, and what each one contains.",
+    description: "The catalog of tool groups MobileBuildMCP exposes through MCP, and what each one contains.",
   },
   tools: {
     slug: "tools",
     title: "Tools Reference",
     group: "Reference",
-    description: "All tools XcodeBuildMCP advertises, synced live from the latest release.",
+    description: "All tools MobileBuildMCP advertises, synced live from the latest release.",
   },
   "mcp-protocol-support": {
     slug: "mcp-protocol-support",
     title: "MCP Protocol Support",
     group: "Reference",
-    description: "Which features of the MCP protocol XcodeBuildMCP implements.",
+    description: "Which features of the MCP protocol MobileBuildMCP implements.",
   },
   "output-formats": {
     slug: "output-formats",
@@ -176,7 +176,7 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "configuration",
     title: "Configuration",
     group: "Reference",
-    description: "Everything XcodeBuildMCP reads on startup.",
+    description: "Everything MobileBuildMCP reads on startup.",
   },
   "session-defaults": {
     slug: "session-defaults",
@@ -189,14 +189,14 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "env-vars",
     title: "Environment Variables",
     group: "Reference",
-    description: "Every env var XcodeBuildMCP reads on startup.",
+    description: "Every env var MobileBuildMCP reads on startup.",
   },
   "xcode-ide": {
     slug: "xcode-ide",
     title: "Xcode IDE Bridge",
     group: "Reference",
     description:
-      "Proxy Xcode 26's MCP service through XcodeBuildMCP to reach IDE-only tools.",
+      "Proxy Xcode 26's MCP service through MobileBuildMCP to reach IDE-only tools.",
   },
   "device-signing": {
     slug: "device-signing",
@@ -208,19 +208,19 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "skills",
     title: "Agent Skills",
     group: "Guides",
-    description: "Prime your agent with XcodeBuildMCP's conventions.",
+    description: "Prime your agent with MobileBuildMCP's conventions.",
   },
   demos: {
     slug: "demos",
     title: "Demos",
     group: "Guides",
-    description: "Short clips of XcodeBuildMCP in action across different MCP clients.",
+    description: "Short clips of MobileBuildMCP in action across different MCP clients.",
   },
   "migration-v2": {
     slug: "migration-v2",
     title: "Migration from v1",
     group: "Guides",
-    description: "Upgrading from XcodeBuildMCP 1.x to 2.x.",
+    description: "Upgrading from MobileBuildMCP 1.x to 2.x.",
   },
   privacy: {
     slug: "privacy",
@@ -244,14 +244,14 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "contributing",
     title: "Contributing",
     group: "Contributing",
-    description: "How to set up, build, and submit changes to XcodeBuildMCP.",
+    description: "How to set up, build, and submit changes to MobileBuildMCP.",
   },
   architecture: {
     slug: "architecture",
     title: "Architecture Overview",
     group: "Contributing",
     description:
-      "Why XcodeBuildMCP is split into manifests, runtime boundaries, tool handlers, rendering, and daemon transport.",
+      "Why MobileBuildMCP is split into manifests, runtime boundaries, tool handlers, rendering, and daemon transport.",
   },
   "architecture-runtime-boundaries": {
     slug: "architecture-runtime-boundaries",
@@ -318,7 +318,7 @@ export const PAGE_META: Record<DocSlug, DocRoute> = {
     slug: "testing",
     title: "Testing",
     group: "Contributing",
-    description: "How XcodeBuildMCP tests tools, fixtures, snapshots, and schema contracts.",
+    description: "How MobileBuildMCP tests tools, fixtures, snapshots, and schema contracts.",
   },
 }
 

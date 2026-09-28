@@ -9,7 +9,7 @@ import {
   type WorkflowTargetPlatform,
 } from "./manifests"
 
-const REPO = "getsentry/XcodeBuildMCP"
+const REPO = "getsentry/MobileBuildMCP"
 const GH_API = "https://api.github.com"
 const RAW = "https://raw.githubusercontent.com"
 
@@ -22,7 +22,7 @@ export const MANIFEST_REVALIDATE_SECONDS = 60 * 60 // 1 hour
 function ghHeaders(): HeadersInit {
   const h: Record<string, string> = {
     Accept: "application/vnd.github+json",
-    "User-Agent": "xcodebuildmcp-docs",
+    "User-Agent": "mobilebuildmcp-docs",
   }
   if (process.env.GITHUB_TOKEN) h.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
   return h
@@ -31,7 +31,7 @@ function ghHeaders(): HeadersInit {
 async function ghJson<T>(url: string): Promise<T> {
   const res = await fetch(url, {
     headers: ghHeaders(),
-    next: { revalidate: MANIFEST_REVALIDATE_SECONDS, tags: ["xcodebuildmcp-manifest"] },
+    next: { revalidate: MANIFEST_REVALIDATE_SECONDS, tags: ["mobilebuildmcp-manifest"] },
   })
   if (!res.ok) throw new Error(`GET ${url} -> ${res.status} ${res.statusText}`)
   return res.json() as Promise<T>
@@ -40,7 +40,7 @@ async function ghJson<T>(url: string): Promise<T> {
 async function ghText(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: ghHeaders(),
-    next: { revalidate: MANIFEST_REVALIDATE_SECONDS, tags: ["xcodebuildmcp-manifest"] },
+    next: { revalidate: MANIFEST_REVALIDATE_SECONDS, tags: ["mobilebuildmcp-manifest"] },
   })
   if (!res.ok) throw new Error(`GET ${url} -> ${res.status} ${res.statusText}`)
   return res.text()
@@ -158,7 +158,7 @@ async function fetchRemote(ref: string): Promise<ManifestSnapshot> {
 }
 
 /**
- * Fetch the XcodeBuildMCP manifest live from GitHub, normalized, cached at
+ * Fetch the MobileBuildMCP manifest live from GitHub, normalized, cached at
  * the Next.js fetch layer for MANIFEST_REVALIDATE_SECONDS. Falls back to the
  * bundled snapshot on any error (network, rate limit, malformed YAML).
  *
@@ -172,7 +172,7 @@ export async function fetchLiveManifest(): Promise<ManifestSnapshot> {
   } catch (err) {
     // Swallow and fall back. A log line surfaces in server output for visibility.
     console.warn(
-      `[xcodebuildmcp-docs] live manifest fetch failed (${(err as Error).message}); ` +
+      `[mobilebuildmcp-docs] live manifest fetch failed (${(err as Error).message}); ` +
         `falling back to bundled snapshot from ${BUNDLED_MANIFEST.source} (${BUNDLED_MANIFEST.ref})`
     )
     return BUNDLED_MANIFEST

@@ -23,7 +23,6 @@ import {
   Cpu,
 } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
 
 interface GitHubStats {
@@ -31,7 +30,7 @@ interface GitHubStats {
   forks: number
 }
 
-export default function XcodeBuildMCPLanding() {
+export default function MobileBuildMCPLanding() {
   const [githubStats, setGithubStats] = useState<GitHubStats>({ stars: 1900, forks: 77 })
   const [npmVersion, setNpmVersion] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -79,23 +78,23 @@ export default function XcodeBuildMCPLanding() {
 
   const npxConfig = `{
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"]
     }
   }
 }`
 
   const homebrewConfig = `{
   "mcpServers": {
-    "XcodeBuildMCP": {
-      "command": "xcodebuildmcp",
+    "MobileBuildMCP": {
+      "command": "mobilebuildmcp",
       "args": ["mcp"]
     }
   }
 }`
 
-  const npmGlobalInstall = "npm install -g xcodebuildmcp@latest"
+  const npmGlobalInstall = "npm install -g mobilebuildmcp@latest"
 
   return (
     <div className="min-h-screen bg-sentry-dark-100 text-sentry-text-primary">
@@ -104,8 +103,7 @@ export default function XcodeBuildMCPLanding() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="#" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-              <Image src="/logo.png" alt="XcodeBuildMCP" width={28} height={28} className="w-7 h-7" />
-              <span className="text-lg font-semibold tracking-tight">XcodeBuildMCP</span>
+              <span className="text-lg font-semibold tracking-tight">MobileBuildMCP</span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
@@ -119,10 +117,10 @@ export default function XcodeBuildMCPLanding() {
                 </a>
               ))}
               <Link
-                href="/why-xcodebuildmcp"
+                href="/why-mobilebuildmcp"
                 className="text-sm text-sentry-text-secondary hover:text-white transition-colors"
               >
-                Why XcodeBuildMCP?
+                Why MobileBuildMCP?
               </Link>
               <Link
                 href="/docs"
@@ -134,7 +132,7 @@ export default function XcodeBuildMCPLanding() {
 
             <div className="flex items-center gap-3">
               <Link
-                href="https://github.com/getsentry/XcodeBuildMCP"
+                href="https://github.com/getsentry/MobileBuildMCP"
                 className="hidden sm:flex items-center gap-2 text-sm text-sentry-text-secondary hover:text-white transition-colors"
               >
                 <Github className="w-4 h-4" />
@@ -169,11 +167,11 @@ export default function XcodeBuildMCPLanding() {
                   </a>
                 ))}
                 <Link
-                  href="/why-xcodebuildmcp"
+                  href="/why-mobilebuildmcp"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-sentry-text-secondary hover:text-white transition-colors"
                 >
-                  Why XcodeBuildMCP?
+                  Why MobileBuildMCP?
                 </Link>
                 <Link
                   href="/docs"
@@ -223,14 +221,14 @@ export default function XcodeBuildMCPLanding() {
               Get Started
             </a>
             <Link
-              href="/why-xcodebuildmcp"
+              href="/why-mobilebuildmcp"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-sentry-dark-600 hover:border-sentry-dark-700 text-sentry-text-primary hover:bg-sentry-dark-400/50 transition-colors"
             >
               <Zap className="w-4 h-4" />
-              Why XcodeBuildMCP?
+              Why MobileBuildMCP?
             </Link>
             <Link
-              href="https://github.com/getsentry/XcodeBuildMCP"
+              href="https://github.com/getsentry/MobileBuildMCP"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-sentry-dark-600 hover:border-sentry-dark-700 text-sentry-text-primary hover:bg-sentry-dark-400/50 transition-colors"
             >
               <Github className="w-4 h-4" />
@@ -338,7 +336,7 @@ export default function XcodeBuildMCPLanding() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">See it in action</h2>
             <p className="text-sentry-text-secondary text-lg max-w-2xl mx-auto">
-              Watch XcodeBuildMCP handle real development workflows end to end.
+              Watch MobileBuildMCP handle real development workflows end to end.
             </p>
           </div>
 
@@ -355,8 +353,8 @@ export default function XcodeBuildMCPLanding() {
                 desc: "LLDB integration for setting breakpoints, inspecting state, and fixing issues.",
               },
               {
-                src: "/videos/XcodeIDE.mp4",
-                title: "Xcode IDE Integration",
+                src: "/videos/IDE.mp4",
+                title: "IDE Integration",
                 desc: "Seamless integration with Xcode's coding agents and development tools.",
               },
             ].map((video) => (
@@ -440,7 +438,7 @@ export default function XcodeBuildMCPLanding() {
                 <div className="p-5 font-mono text-sm space-y-3">
                   <div>
                     <span className="text-sentry-text-muted">$</span>{" "}
-                    <span className="text-sentry-text-primary">xcodebuildmcp tools</span>
+                    <span className="text-sentry-text-primary">mobilebuildmcp tools</span>
                   </div>
                   <div className="text-sentry-text-muted text-xs leading-relaxed">
                     Available tools (59):{"\n"}
@@ -451,7 +449,7 @@ export default function XcodeBuildMCPLanding() {
                   </div>
                   <div className="pt-2 border-t border-sentry-dark-600/30">
                     <span className="text-sentry-text-muted">$</span>{" "}
-                    <span className="text-sentry-text-primary">xcodebuildmcp simulator build-and-run \</span>
+                    <span className="text-sentry-text-primary">mobilebuildmcp simulator build-and-run \</span>
                     {"\n"}
                     <span className="text-sentry-text-primary">{"    "}--scheme MyApp --project-path ./MyApp.xcodeproj</span>
                   </div>
@@ -488,7 +486,7 @@ export default function XcodeBuildMCPLanding() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Works with Xcode's coding agents</h3>
                 <p className="text-sentry-text-secondary mb-6 leading-relaxed">
-                  XcodeBuildMCP integrates natively with Xcode 26.3's Claude and Codex coding agents.
+                  MobileBuildMCP integrates natively with Xcode 26.3's Claude and Codex coding agents.
                   It automatically detects your selected scheme and simulator, using those values for all operations.
                 </p>
                 <ul className="space-y-3">
@@ -515,7 +513,7 @@ export default function XcodeBuildMCPLanding() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Proxy Xcode's MCP server</h3>
                 <p className="text-sentry-text-secondary mb-6 leading-relaxed">
-                  Xcode now has its own MCP server for external agents. XcodeBuildMCP proxies those tools
+                  Xcode now has its own MCP server for external agents. MobileBuildMCP proxies those tools
                   automatically, so you only need one server configured in your client.
                 </p>
                 <ul className="space-y-3">
@@ -599,7 +597,7 @@ export default function XcodeBuildMCPLanding() {
               </div>
 
               <div className="rounded-xl border border-sentry-dark-600/50 bg-sentry-dark-200/80 p-5">
-                <p className="text-xs text-sentry-text-muted mb-3">.xcodebuildmcp/config.yaml</p>
+                <p className="text-xs text-sentry-text-muted mb-3">.mobilebuildmcp/config.yaml</p>
                 <pre className="font-mono text-xs text-sentry-text-primary leading-relaxed">{`schemaVersion: 1
 enabledWorkflows:
   - simulator
@@ -620,7 +618,7 @@ sessionDefaults:
                 Built for <span className="text-sentry-purple">AI agents</span>
               </h2>
               <p className="text-sentry-text-secondary text-lg mb-6 leading-relaxed">
-                Configure your project once and let AI agents handle the rest. XcodeBuildMCP gives agents
+                Configure your project once and let AI agents handle the rest. MobileBuildMCP gives agents
                 full autonomy over the build, test, and deploy cycle.
               </p>
               <ul className="space-y-3">
@@ -648,7 +646,7 @@ sessionDefaults:
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Get started in seconds</h2>
             <p className="text-sentry-text-secondary text-lg">
-              Install XcodeBuildMCP as an MCP server for AI coding agents, or globally for CLI use.
+              Install MobileBuildMCP as an MCP server for AI coding agents, or globally for CLI use.
             </p>
           </div>
 
@@ -676,10 +674,10 @@ sessionDefaults:
                   <p className="text-sm text-sentry-text-secondary mb-3">Install via Homebrew:</p>
                   <div className="flex items-center gap-2 bg-sentry-dark-100 rounded-lg p-3 font-mono text-sm">
                     <code className="text-green-400 flex-1">
-                      brew tap getsentry/xcodebuildmcp && brew install xcodebuildmcp
+                      brew tap getsentry/xcodebuildmcp && brew install mobilebuildmcp
                     </code>
                     <button
-                      onClick={() => copyToClipboard("brew tap getsentry/xcodebuildmcp && brew install xcodebuildmcp", "brew")}
+                      onClick={() => copyToClipboard("brew tap getsentry/xcodebuildmcp && brew install mobilebuildmcp", "brew")}
                       className="p-1.5 rounded hover:bg-sentry-dark-400 transition-colors shrink-0"
                     >
                       {copiedText === "brew" ? (
@@ -738,12 +736,12 @@ sessionDefaults:
                 </div>
                 <div className="flex items-center gap-2 bg-sentry-dark-100 rounded-lg p-3 font-mono text-sm">
                   <code className="text-green-400 flex-1">
-                    {activeInstallTab === "npx" ? npmGlobalInstall : "xcodebuildmcp --help"}
+                    {activeInstallTab === "npx" ? npmGlobalInstall : "mobilebuildmcp --help"}
                   </code>
                   <button
                     onClick={() =>
                       copyToClipboard(
-                        activeInstallTab === "npx" ? npmGlobalInstall : "xcodebuildmcp --help",
+                        activeInstallTab === "npx" ? npmGlobalInstall : "mobilebuildmcp --help",
                         "cli",
                       )
                     }
@@ -782,11 +780,11 @@ sessionDefaults:
             <div className="relative">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">Open source, community driven</h2>
               <p className="text-sentry-text-secondary text-lg max-w-xl mx-auto mb-8">
-                XcodeBuildMCP is MIT licensed and welcomes contributions. Help shape the future of AI-powered Xcode development.
+                MobileBuildMCP is MIT licensed and welcomes contributions. Help shape the future of AI-powered Xcode development.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
-                  href="https://github.com/getsentry/XcodeBuildMCP/issues"
+                  href="https://github.com/getsentry/MobileBuildMCP/issues"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sentry-purple hover:bg-sentry-purple-deep text-white font-medium transition-colors"
                 >
                   <Github className="w-4 h-4" />
@@ -810,8 +808,7 @@ sessionDefaults:
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Image src="/logo.png" alt="XcodeBuildMCP" width={20} height={20} className="w-5 h-5" />
-              <span className="text-sm font-medium">XcodeBuildMCP</span>
+              <span className="text-sm font-medium">MobileBuildMCP</span>
               <span className="text-sm text-sentry-text-muted">&copy; {new Date().getFullYear()} Sentry</span>
             </div>
 
@@ -832,7 +829,7 @@ sessionDefaults:
                 @xcodebuildmcp
               </Link>
               <Link
-                href="https://github.com/getsentry/XcodeBuildMCP"
+                href="https://github.com/getsentry/MobileBuildMCP"
                 className="text-sm text-sentry-text-muted hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <Github className="w-3.5 h-3.5" />

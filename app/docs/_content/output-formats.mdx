@@ -7,15 +7,15 @@ import { PageHeader } from "../_components/page-header"
   lede="Choose human-readable output for agents, a structured JSON response for scripts, NDJSON fragments for live pipelines, or raw process output for debugging."
 />
 
-XcodeBuildMCP exposes the same tool results through the CLI and MCP server. The CLI controls presentation with `--output text|json|jsonl|raw`. MCP clients receive the rendered text block, and tools with structured results also attach `structuredContent`.
+MobileBuildMCP exposes the same tool results through the CLI and MCP server. The CLI controls presentation with `--output text|json|jsonl|raw`. MCP clients receive the rendered text block, and tools with structured results also attach `structuredContent`.
 
 ## CLI output modes
 
 Every CLI tool accepts `--output`. The default is `text`.
 
 ```shell
-xcodebuildmcp simulator list --output json
-xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj --output jsonl
+mobilebuildmcp simulator list --output json
+mobilebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj --output jsonl
 ```
 
 | Mode | What you get | Use it when |
@@ -30,7 +30,7 @@ xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj --
 `text` is the default. It uses the interactive CLI renderer in terminals, so build and test tools can stream progress while the command is running. In non-interactive contexts it still returns readable text.
 
 ```shell
-xcodebuildmcp simulator list
+mobilebuildmcp simulator list
 ```
 
 ```text
@@ -41,7 +41,7 @@ Available iOS Simulators:
   Runtime: iOS 26.0
 
 Next steps:
-  xcodebuildmcp simulator build --scheme YOUR_SCHEME --simulator-id 11111111-2222-3333-4444-555555555555
+  mobilebuildmcp simulator build --scheme YOUR_SCHEME --simulator-id 11111111-2222-3333-4444-555555555555
 ```
 
 Use `text` for normal agent workflows. Agents can read summaries, diagnostics, and next-step commands without needing a JSON parser.
@@ -50,11 +50,11 @@ CLI text renders file artifacts as labeled rows under `Files:` by default:
 
 ```text
 Files:
-   ├ App Path: ~/Library/Developer/XcodeBuildMCP/.../MyApp.app
-   └ Build Logs: ~/Library/Developer/XcodeBuildMCP/.../build.log
+   ├ App Path: ~/Library/Developer/MobileBuildMCP/.../MyApp.app
+   └ Build Logs: ~/Library/Developer/MobileBuildMCP/.../build.log
 ```
 
-Use `--file-path-render-style tree` for the compact grouped tree used by MCP text responses, or set `filePathRenderStyle: "tree"` / `XCODEBUILDMCP_FILE_PATH_RENDER_STYLE=tree`. This setting only affects human-readable text; `--output json` and `--output jsonl` keep the same structured fields.
+Use `--file-path-render-style tree` for the compact grouped tree used by MCP text responses, or set `filePathRenderStyle: "tree"` / `MOBILEBUILDMCP_FILE_PATH_RENDER_STYLE=tree`. This setting only affects human-readable text; `--output json` and `--output jsonl` keep the same structured fields.
 
 ## Output style
 
@@ -78,19 +78,19 @@ The response has these fields:
 
 | Field | Type | Meaning |
 |-------|------|---------|
-| `schema` | `string` | Schema identifier, for example `xcodebuildmcp.output.build-result`. |
+| `schema` | `string` | Schema identifier, for example `mobilebuildmcp.output.build-result`. |
 | `schemaVersion` | `string` | Version of that schema contract. |
 | `didError` | `boolean` | Whether the final result is an error. |
 | `error` | `string \| null` | Human-readable error text when `didError` is true. |
-| `data` | `object \| null` | Schema-specific payload. Domain schemas use tool-specific data; `xcodebuildmcp.output.error` uses generic error metadata. |
+| `data` | `object \| null` | Schema-specific payload. Domain schemas use tool-specific data; `mobilebuildmcp.output.error` uses generic error metadata. |
 | `nextSteps` | `string[]` | Optional follow-up hint lines for agents and automation. Present only when the runtime resolved final next-step guidance. |
 
 Structured output is a tagged union. Consumers should branch on `schema`, then parse `data` according to that schema. When `nextSteps` is present, callers can use those rendered command lines to chain follow-up tool calls without scraping rendered text:
 
 ```typescript
-type XcodeBuildMCPOutput =
+type MobileBuildMCPOutput =
   | {
-      schema: "xcodebuildmcp.output.simulator-list"
+      schema: "mobilebuildmcp.output.simulator-list"
       schemaVersion: "2"
       didError: boolean
       error: string | null
@@ -98,7 +98,7 @@ type XcodeBuildMCPOutput =
       nextSteps?: string[]
     }
   | {
-      schema: "xcodebuildmcp.output.error"
+      schema: "mobilebuildmcp.output.error"
       schemaVersion: "1"
       didError: true
       error: string
@@ -106,11 +106,11 @@ type XcodeBuildMCPOutput =
     }
 ```
 
-For example, `list_sims` normally returns `xcodebuildmcp.output.simulator-list`, but a validation or runtime failure before simulator listing begins returns `xcodebuildmcp.output.error`. Do not assume a tool always returns only its domain schema; always check `schema` first.
+For example, `list_sims` normally returns `mobilebuildmcp.output.simulator-list`, but a validation or runtime failure before simulator listing begins returns `mobilebuildmcp.output.error`. Do not assume a tool always returns only its domain schema; always check `schema` first.
 
 ```json
 {
-  "schema": "xcodebuildmcp.output.simulator-list",
+  "schema": "mobilebuildmcp.output.simulator-list",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -133,7 +133,7 @@ For example, `list_sims` normally returns `xcodebuildmcp.output.simulator-list`,
     ]
   },
   "nextSteps": [
-    "Build an app for this simulator: xcodebuildmcp simulator build --simulator-id A1B2C3D4-E5F6-7890-ABCD-EF0123456789"
+    "Build an app for this simulator: mobilebuildmcp simulator build --simulator-id A1B2C3D4-E5F6-7890-ABCD-EF0123456789"
   ]
 }
 ```
@@ -142,7 +142,7 @@ For example, `list_sims` normally returns `xcodebuildmcp.output.simulator-list`,
 
 ```json
 {
-  "schema": "xcodebuildmcp.output.error",
+  "schema": "mobilebuildmcp.output.error",
   "schemaVersion": "1",
   "didError": true,
   "error": "Parameter validation failed: Invalid parameters...",
@@ -153,23 +153,23 @@ For example, `list_sims` normally returns `xcodebuildmcp.output.simulator-list`,
 }
 ```
 
-Domain failures still use their domain schema. For example, an attempted build that fails returns `xcodebuildmcp.output.build-result` with `didError: true` and build diagnostics in `data`.
+Domain failures still use their domain schema. For example, an attempted build that fails returns `mobilebuildmcp.output.build-result` with `didError: true` and build diagnostics in `data`.
 
 For UI automation runtime snapshots, JSON output is compact by default. Compact output keeps the same envelope but projects the runtime snapshot into concise `data.capture.targets`, `data.capture.scroll`, and `data.capture.text` rows. Add `--verbose` when you need the full public runtime snapshot in `data.capture.elements` and `data.capture.actions`. Verbose output still does not expose raw AX nodes.
 
 ```shell
-xcodebuildmcp ui-automation snapshot-ui --simulator-id <UDID> --output json --verbose
+mobilebuildmcp ui-automation snapshot-ui --simulator-id <UDID> --output json --verbose
 ```
 
 With `--output json --style minimal`, request/frontmatter fields such as `data.request` are omitted while the envelope, domain data, and available next steps remain:
 
 ```shell
-xcodebuildmcp simulator build --scheme CalculatorApp --workspace-path example_projects/iOS_Calculator/CalculatorApp.xcworkspace --output json --style minimal
+mobilebuildmcp simulator build --scheme CalculatorApp --workspace-path example_projects/iOS_Calculator/CalculatorApp.xcworkspace --output json --style minimal
 ```
 
 ```json
 {
-  "schema": "xcodebuildmcp.output.build-result",
+  "schema": "mobilebuildmcp.output.build-result",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -180,7 +180,7 @@ xcodebuildmcp simulator build --scheme CalculatorApp --workspace-path example_pr
       "target": "simulator"
     },
     "artifacts": {
-      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/logs/build_sim_20260424.log"
+      "buildLogPath": "~/Library/Developer/MobileBuildMCP/logs/build_sim_20260424.log"
     },
     "diagnostics": {
       "warnings": [],
@@ -188,7 +188,7 @@ xcodebuildmcp simulator build --scheme CalculatorApp --workspace-path example_pr
     }
   },
   "nextSteps": [
-    "Run the app on this simulator: xcodebuildmcp simulator build-run --scheme CalculatorApp --workspace-path example_projects/iOS_Calculator/CalculatorApp.xcworkspace"
+    "Run the app on this simulator: mobilebuildmcp simulator build-run --scheme CalculatorApp --workspace-path example_projects/iOS_Calculator/CalculatorApp.xcworkspace"
   ]
 }
 ```
@@ -217,7 +217,7 @@ Use `jsonl` when the user benefits from live progress, but your caller still wan
 `raw` is for debugging subprocess behavior. Transcript fragments, such as the command line and raw process output, are written to stderr as the tool produces them. The final non-transcript rendering still goes to stdout.
 
 ```shell
-xcodebuildmcp simulator build \
+mobilebuildmcp simulator build \
   --scheme MyApp \
   --project-path ./MyApp.xcodeproj \
   --output raw
@@ -233,7 +233,7 @@ Do not script against `raw`. The transcript is intentionally close to the underl
 
 ## Structured content for MCP clients
 
-MCP mode always returns the normal `content` array. When a tool sets structured output, XcodeBuildMCP also attaches [`structuredContent`](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#structured-content) using the same structured-output envelope as `--output json`. MCP `structuredContent` is agent-focused: request/frontmatter fields such as `data.request` are omitted, and optional `nextSteps` render as MCP tool-call hints rather than shell commands. Pre-domain failures — validation errors, schema mismatches, or runtime errors before the tool executes — also produce `structuredContent` using `schema: "xcodebuildmcp.output.error"`.
+MCP mode always returns the normal `content` array. When a tool sets structured output, MobileBuildMCP also attaches [`structuredContent`](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#structured-content) using the same structured-output envelope as `--output json`. MCP `structuredContent` is agent-focused: request/frontmatter fields such as `data.request` are omitted, and optional `nextSteps` render as MCP tool-call hints rather than shell commands. Pre-domain failures — validation errors, schema mismatches, or runtime errors before the tool executes — also produce `structuredContent` using `schema: "mobilebuildmcp.output.error"`.
 
 ```json
 {
@@ -244,7 +244,7 @@ MCP mode always returns the normal `content` array. When a tool sets structured 
     }
   ],
   "structuredContent": {
-    "schema": "xcodebuildmcp.output.build-run-result",
+    "schema": "mobilebuildmcp.output.build-run-result",
     "schemaVersion": "2",
     "didError": false,
     "error": null,
@@ -255,12 +255,12 @@ MCP mode always returns the normal `content` array. When a tool sets structured 
         "target": "simulator"
       },
       "artifacts": {
-        "appPath": "~/Library/Developer/XcodeBuildMCP/DerivedData/Build/Products/Debug-iphonesimulator/CalculatorApp.app",
+        "appPath": "~/Library/Developer/MobileBuildMCP/DerivedData/Build/Products/Debug-iphonesimulator/CalculatorApp.app",
         "bundleId": "io.sentry.calculatorapp",
         "processId": 91827,
         "simulatorId": "A1B2C3D4-E5F6-7890-ABCD-EF0123456789",
-        "buildLogPath": "~/Library/Developer/XcodeBuildMCP/logs/build_run_sim_20260424.log",
-        "runtimeLogPath": "~/Library/Developer/XcodeBuildMCP/logs/io.sentry.calculatorapp_20260424.log"
+        "buildLogPath": "~/Library/Developer/MobileBuildMCP/logs/build_run_sim_20260424.log",
+        "runtimeLogPath": "~/Library/Developer/MobileBuildMCP/logs/io.sentry.calculatorapp_20260424.log"
       },
       "diagnostics": {
         "warnings": [],
@@ -274,17 +274,17 @@ MCP mode always returns the normal `content` array. When a tool sets structured 
 }
 ```
 
-Tools that declare an [output schema](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#output-schema) also advertise it during MCP registration. For tools with structured output, the advertised schema is a union of the tool's domain envelope and the generic `xcodebuildmcp.output.error` envelope. The domain branch allows optional `nextSteps` as string arrays when the current schema version includes them. Clients can use that schema to validate `structuredContent` or render typed UI, but should still branch on the returned `schema` value at runtime.
+Tools that declare an [output schema](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#output-schema) also advertise it during MCP registration. For tools with structured output, the advertised schema is a union of the tool's domain envelope and the generic `mobilebuildmcp.output.error` envelope. The domain branch allows optional `nextSteps` as string arrays when the current schema version includes them. Clients can use that schema to validate `structuredContent` or render typed UI, but should still branch on the returned `schema` value at runtime.
 
 ## Per-test results
 
 Test tools (`test_sim`, `test_device`, `test_macos`, `swift_package_test`) include a `testCases` array on the structured `test-result` response. Each entry has `suite` (optional), `test`, `status` (`passed`, `failed`, or `skipped`), and `durationMs` (optional).
 
-The array is always present in JSON output and MCP `structuredContent` when the run produced any per-case results. The `showTestTiming` config option (or `XCODEBUILDMCP_SHOW_TEST_TIMING=1`) is purely a text-rendering toggle: with it on, `--output text` and MCP `content[]` text include a `Test Results:` block before the summary; with it off, the structured data is still there for programmatic consumers.
+The array is always present in JSON output and MCP `structuredContent` when the run produced any per-case results. The `showTestTiming` config option (or `MOBILEBUILDMCP_SHOW_TEST_TIMING=1`) is purely a text-rendering toggle: with it on, `--output text` and MCP `content[]` text include a `Test Results:` block before the summary; with it off, the structured data is still there for programmatic consumers.
 
 ```json
 {
-  "schema": "xcodebuildmcp.output.test-result",
+  "schema": "mobilebuildmcp.output.test-result",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -327,7 +327,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
 <Tabs tabs={[
   { label: "list_sims JSON", content: (
     <CodeBlock lang="json" plain={`{
-  "schema": "xcodebuildmcp.output.simulator-list",
+  "schema": "mobilebuildmcp.output.simulator-list",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -351,7 +351,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
   }
 }`}>
 {`{
-  "schema": "xcodebuildmcp.output.simulator-list",
+  "schema": "mobilebuildmcp.output.simulator-list",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -378,7 +378,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
   ) },
   { label: "build_sim JSON", content: (
     <CodeBlock lang="json" plain={`{
-  "schema": "xcodebuildmcp.output.build-result",
+  "schema": "mobilebuildmcp.output.build-result",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -396,7 +396,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
       "target": "simulator"
     },
     "artifacts": {
-      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/logs/build_sim_20260424.log"
+      "buildLogPath": "~/Library/Developer/MobileBuildMCP/logs/build_sim_20260424.log"
     },
     "diagnostics": {
       "warnings": [],
@@ -405,7 +405,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
   }
 }`}>
 {`{
-  "schema": "xcodebuildmcp.output.build-result",
+  "schema": "mobilebuildmcp.output.build-result",
   "schemaVersion": "2",
   "didError": false,
   "error": null,
@@ -423,7 +423,7 @@ Canonical JSON schemas are published at stable website URLs under `/schemas/stru
       "target": "simulator"
     },
     "artifacts": {
-      "buildLogPath": "~/Library/Developer/XcodeBuildMCP/logs/build_sim_20260424.log"
+      "buildLogPath": "~/Library/Developer/MobileBuildMCP/logs/build_sim_20260424.log"
     },
     "diagnostics": {
       "warnings": [],

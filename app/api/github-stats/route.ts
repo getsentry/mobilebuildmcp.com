@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
-    const response = await fetch("https://api.github.com/repos/getsentry/XcodeBuildMCP", {
+    const response = await fetch("https://api.github.com/repos/getsentry/MobileBuildMCP", {
       headers: process.env.GITHUB_TOKEN
         ? {
             Authorization: `token ${process.env.GITHUB_TOKEN}`,

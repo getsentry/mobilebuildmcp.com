@@ -7,15 +7,15 @@ import "./_styles/scraps.css"
 
 export const metadata: Metadata = {
   title: {
-    default: "XcodeBuildMCP Docs",
-    template: "%s · XcodeBuildMCP Docs",
+    default: "MobileBuildMCP Docs",
+    template: "%s · MobileBuildMCP Docs",
   },
   description:
-    "Documentation for XcodeBuildMCP: a Model Context Protocol server and CLI that gives AI agents safe, predictable tools for iOS and macOS development.",
+    "Documentation for MobileBuildMCP: a Model Context Protocol server and CLI that gives AI agents safe, predictable tools for iOS and macOS development.",
   openGraph: {
-    title: "XcodeBuildMCP Docs",
+    title: "MobileBuildMCP Docs",
     description:
-      "Documentation for XcodeBuildMCP: a Model Context Protocol server and CLI for AI-driven iOS and macOS development.",
+      "Documentation for MobileBuildMCP: a Model Context Protocol server and CLI for AI-driven iOS and macOS development.",
     type: "website",
     url: "https://xcodebuildmcp.com/docs",
   },

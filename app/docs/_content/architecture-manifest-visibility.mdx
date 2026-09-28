@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Architecture", "Manifests & Visibility"]}
   title="Manifests & Visibility"
-  lede="How XcodeBuildMCP describes its tools as data instead of code, and how it decides which front door advertises each one in any given session."
+  lede="How MobileBuildMCP describes its tools as data instead of code, and how it decides which front door advertises each one in any given session."
 />
 
-XcodeBuildMCP's MCP server, CLI, and daemon all need to know the same things about a tool — its protocol name, command name, description, output schema, and the conditions under which it should be visible. This page covers the two layers that handle that: the YAML files that declare tools, workflows, and resources without containing implementation code, and the rules that decide which of those declarations actually reach the caller.
+MobileBuildMCP's MCP server, CLI, and daemon all need to know the same things about a tool — its protocol name, command name, description, output schema, and the conditions under which it should be visible. This page covers the two layers that handle that: the YAML files that declare tools, workflows, and resources without containing implementation code, and the rules that decide which of those declarations actually reach the caller.
 
 ## Terms used here
 

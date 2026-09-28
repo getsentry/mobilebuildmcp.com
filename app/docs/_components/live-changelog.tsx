@@ -27,7 +27,7 @@ export async function LiveChangelog({ limit = 10 }: { limit?: number }) {
       ))}
       <div className="release-entry">
         <a
-          href={`https://github.com/getsentry/XcodeBuildMCP/releases`}
+          href={`https://github.com/getsentry/MobileBuildMCP/releases`}
           target="_blank"
           rel="noreferrer"
           style={{ fontSize: 13 }}
@@ -104,11 +104,11 @@ function ChangelogFallback() {
           <div>
             The live changelog feed couldn&apos;t be loaded right now. See every release at{" "}
             <a
-              href="https://github.com/getsentry/XcodeBuildMCP/releases"
+              href="https://github.com/getsentry/MobileBuildMCP/releases"
               target="_blank"
               rel="noreferrer"
             >
-              github.com/getsentry/XcodeBuildMCP/releases
+              github.com/getsentry/MobileBuildMCP/releases
             </a>
             .
           </div>

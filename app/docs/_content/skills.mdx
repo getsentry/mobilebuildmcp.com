@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Guides", "Agent Skills"]}
   title="Agent Skills"
-  lede="Prime your agent with XcodeBuildMCP's conventions so it stops guessing flag names."
+  lede="Prime your agent with MobileBuildMCP's conventions so it stops guessing flag names."
 />
 
-XcodeBuildMCP ships with two optional [agent skills](https://agentskills.io/home):
+MobileBuildMCP ships with two optional [agent skills](https://agentskills.io/home):
 
 - **MCP Skill**: how to call MCP tools. Optional when you're already using the MCP server, because Claude Code already receives equivalent guidance via server instructions.
 - **CLI Skill**: how to navigate the CLI. Recommended when your agent drives the terminal.
@@ -14,7 +14,7 @@ XcodeBuildMCP ships with two optional [agent skills](https://agentskills.io/home
 ## Install
 
 ```shell
-xcodebuildmcp init
+mobilebuildmcp init
 ```
 
 This auto-detects installed AI clients (Claude Code, Cursor, Codex) and installs the CLI skill into the right directory for each.
@@ -41,7 +41,7 @@ This auto-detects installed AI clients (Claude Code, Cursor, Codex) and installs
 For clients without a skills directory, print the skill and pipe it where you need it:
 
 ```shell
-xcodebuildmcp init --print --skill mcp > my-mcp-skill.md
+mobilebuildmcp init --print --skill mcp > my-mcp-skill.md
 ```
 
 Then paste it into your client's instructions area, or feed it as system prompt context.
@@ -60,4 +60,4 @@ Agents without the skill still work; they just spend more tokens rediscovering c
 ## Related
 
 - [agentskills.io](https://agentskills.io/home)
-- The upstream skill sources live in [skills/](https://github.com/getsentry/XcodeBuildMCP/tree/main/skills).
+- The upstream skill sources live in [skills/](https://github.com/getsentry/MobileBuildMCP/tree/main/skills).

@@ -1,5 +1,5 @@
 /* ===========================================================================
- * XcodeBuildMCP Docs — Sentry Scraps design tokens + layout, scoped to /docs
+ * MobileBuildMCP Docs — Sentry Scraps design tokens + layout, scoped to /docs
  * ---------------------------------------------------------------------------
  * All selectors are scoped under .docs-root to prevent leakage into the
  * marketing page's HSL-based theme variables (see app/globals.css).
@@ -350,14 +350,6 @@ html[data-docs-theme='dark'] .docs-root .codeblock {
   margin-right: 8px;
   text-decoration: none;
   color: var(--fg-headings);
-}
-.docs-root .topbar .brand-logo {
-  display: inline-flex;
-  align-items: center;
-  color: var(--fg-headings);
-}
-.docs-root .topbar .brand-logo svg {
-  display: block;
 }
 .docs-root .topbar .brand-title {
   font-size: 14px;

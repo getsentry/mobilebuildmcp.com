@@ -7,7 +7,7 @@ import { PageHeader } from "../_components/page-header"
 />
 
 <Callout variant="warn" title="One-time setup required in Xcode">
-  XcodeBuildMCP cannot configure code signing automatically. You need to complete this once in Xcode, after which the device workflow tools work unattended.
+  MobileBuildMCP cannot configure code signing automatically. You need to complete this once in Xcode, after which the device workflow tools work unattended.
 </Callout>
 
 ## Steps
@@ -18,9 +18,9 @@ import { PageHeader } from "../_components/page-header"
 4. Enable **Automatically manage signing** and select your development team.
 5. Ensure a valid provisioning profile is selected.
 
-## What XcodeBuildMCP can and cannot do
+## What MobileBuildMCP can and cannot do
 
-| | XcodeBuildMCP |
+| | MobileBuildMCP |
 |---|---|
 | Build, install, launch, test on paired devices once signing is configured | ✓ |
 | Capture runtime logs and pids from device apps | ✓ |
@@ -33,14 +33,14 @@ import { PageHeader } from "../_components/page-header"
 After configuring signing, plug in your device, trust the computer, and confirm it's visible to the CLI:
 
 ```shell
-xcodebuildmcp device list
+mobilebuildmcp device list
 ```
 
 If the device shows as `unreachable`, re-pair it over USB first in **Window → Devices and Simulators** inside Xcode.
 
 ## Wi-Fi devices
 
-XcodeBuildMCP detects devices paired over Wi-Fi as well as USB. Device discovery uses Apple's `devicectl` under the hood, so Wi-Fi pairing from Xcode carries over directly.
+MobileBuildMCP detects devices paired over Wi-Fi as well as USB. Device discovery uses Apple's `devicectl` under the hood, so Wi-Fi pairing from Xcode carries over directly.
 
 ## Related
 

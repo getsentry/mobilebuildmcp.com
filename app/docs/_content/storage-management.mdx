@@ -4,29 +4,29 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Guides", "Storage Management"]}
   title="Storage Management"
-  lede="Use the interactive cleaner to review and remove XcodeBuildMCP-managed workspace storage when isolated build artifacts, logs, result bundles, or temporary state start taking too much disk space."
+  lede="Use the interactive cleaner to review and remove MobileBuildMCP-managed workspace storage when isolated build artifacts, logs, result bundles, or temporary state start taking too much disk space."
 />
 
-<Callout variant="info" title="Why XcodeBuildMCP uses workspace-scoped storage">
-  XcodeBuildMCP gives each workspace its own managed storage so parallel agents can safely build and test the same project from different worktrees, branches, or cloned checkouts. This avoids different sessions overwriting each other's DerivedData, result bundles, logs, and temporary runtime state.
+<Callout variant="info" title="Why MobileBuildMCP uses workspace-scoped storage">
+  MobileBuildMCP gives each workspace its own managed storage so parallel agents can safely build and test the same project from different worktrees, branches, or cloned checkouts. This avoids different sessions overwriting each other's DerivedData, result bundles, logs, and temporary runtime state.
 
-  The tradeoff is disk usage. Safer parallel isolation can create multiple copies of build artifacts for the same app, so `xcodebuildmcp purge` exists to help you review and clean that storage deliberately.
+  The tradeoff is disk usage. Safer parallel isolation can create multiple copies of build artifacts for the same app, so `mobilebuildmcp purge` exists to help you review and clean that storage deliberately.
 </Callout>
 
 The normal cleanup path is interactive:
 
 ```shell
-xcodebuildmcp purge
+mobilebuildmcp purge
 ```
 
 This opens a guided cleaner that shows projects, workspaces, and direct child folders. It keeps the prompt compact, avoids dumping long file lists, and asks for confirmation before deleting anything.
 
 <Callout variant="warn" title="Deletion is explicit">
-  `xcodebuildmcp purge` does not silently clean DerivedData in the background. Interactive cleanup asks before deleting. Destructive non-interactive cleanup requires `--delete`, explicit `--classes`, and the confirmation phrase shown by `--help`.
+  `mobilebuildmcp purge` does not silently clean DerivedData in the background. Interactive cleanup asks before deleting. Destructive non-interactive cleanup requires `--delete`, explicit `--classes`, and the confirmation phrase shown by `--help`.
 </Callout>
 
 <Callout variant="info" title="Some cleanup already happens automatically">
-  XcodeBuildMCP already runs conservative lifecycle cleanup for managed logs and managed result bundles. That automatic sweep is narrow: it protects recent files and active helper processes, and it does not delete DerivedData. Use `xcodebuildmcp purge` when you want visibility, explicit cleanup, or DerivedData cleanup.
+  MobileBuildMCP already runs conservative lifecycle cleanup for managed logs and managed result bundles. That automatic sweep is narrow: it protects recent files and active helper processes, and it does not delete DerivedData. Use `mobilebuildmcp purge` when you want visibility, explicit cleanup, or DerivedData cleanup.
 </Callout>
 
 ## When to use it
@@ -36,7 +36,7 @@ Use the cleaner when:
 - your disk is filling up after many builds or test runs;
 - you work across many branches, worktrees, or cloned copies of the same app;
 - an agent has created lots of per-workspace build state;
-- you want to inspect XcodeBuildMCP-managed storage before removing anything.
+- you want to inspect MobileBuildMCP-managed storage before removing anything.
 
 If you only need regular build, test, launch, or UI automation commands, you do not need this guide.
 
@@ -45,7 +45,7 @@ If you only need regular build, test, launch, or UI automation commands, you do 
 Run the command with no mode in a TTY:
 
 ```shell
-xcodebuildmcp purge
+mobilebuildmcp purge
 ```
 
 The flow starts with the biggest projects and lets you drill down:
@@ -58,12 +58,12 @@ The flow starts with the biggest projects and lets you drill down:
 
 DerivedData is shown as a folder choice, but it remains explicit. The cleaner calls it out before confirmation because deleting DerivedData can reclaim a lot of space but also makes later Xcode builds slower until caches are rebuilt.
 
-## What XcodeBuildMCP stores
+## What MobileBuildMCP stores
 
 | Storage class | What it contains | Cleanup behavior |
 |---------------|------------------|------------------|
 | `derivedData` | Xcode build products, indexes, module caches, and intermediates for a workspace | Opt-in only. Select it explicitly. |
-| `logs` | XcodeBuildMCP-managed build, daemon, and simulator helper logs | Safe default cleanup target. Recent or active logs are protected. |
+| `logs` | MobileBuildMCP-managed build, daemon, and simulator helper logs | Safe default cleanup target. Recent or active logs are protected. |
 | `resultBundles` | Managed `.xcresult` bundles and completion marker files | Safe default cleanup target. Active or incomplete bundles are protected. |
 | `stateTransients` | Stale daemon, OSLog, and Xcode IDE bridge temporary state | Cleaned only when it is safe to identify as stale. |
 
@@ -74,13 +74,13 @@ The `locks` directory can appear in reports, but purge does not delete it as a s
 Use report mode when you want details for a script, CI diagnostic, or issue report.
 
 ```shell
-xcodebuildmcp purge --report
+mobilebuildmcp purge --report
 ```
 
 For machine-readable output:
 
 ```shell
-xcodebuildmcp purge --report --json
+mobilebuildmcp purge --report --json
 ```
 
 A bare report covers all known workspaces so you can see where space is going. Reports include total usage, workspace usage, family usage, and storage-class usage for the selected scope.
@@ -90,7 +90,7 @@ A bare report covers all known workspaces so you can see where space is going. R
 Dry-run mode builds the deletion plan without removing files.
 
 ```shell
-xcodebuildmcp purge --dry-run --scope current --classes logs,resultBundles,stateTransients
+mobilebuildmcp purge --dry-run --scope current --classes logs,resultBundles,stateTransients
 ```
 
 Without an explicit scope, dry-run and delete target the current workspace. This keeps cleanup narrow by default.
@@ -98,7 +98,7 @@ Without an explicit scope, dry-run and delete target the current workspace. This
 To include DerivedData, name it directly:
 
 ```shell
-xcodebuildmcp purge --dry-run --scope current --classes derivedData --older-than 7d
+mobilebuildmcp purge --dry-run --scope current --classes derivedData --older-than 7d
 ```
 
 `--older-than` accepts day values such as `1d`, `7d`, `14d`, or `30d`. The age check uses the newest file or directory inside a candidate, so a directory with fresh contents is not selected just because the directory itself looks old.
@@ -108,23 +108,23 @@ xcodebuildmcp purge --dry-run --scope current --classes derivedData --older-than
 Use non-interactive delete mode only when you already know the scope and classes you want to remove.
 
 ```shell
-xcodebuildmcp purge --delete \
+mobilebuildmcp purge --delete \
   --scope current \
   --classes logs,resultBundles,stateTransients \
-  --confirm delete-xcodebuildmcp-storage
+  --confirm delete-mobilebuildmcp-storage
 ```
 
 For DerivedData cleanup, keep the selection explicit:
 
 ```shell
-xcodebuildmcp purge --delete \
+mobilebuildmcp purge --delete \
   --scope current \
   --classes derivedData \
   --older-than 14d \
-  --confirm delete-xcodebuildmcp-storage
+  --confirm delete-mobilebuildmcp-storage
 ```
 
-During deletion, XcodeBuildMCP revalidates every candidate under the workspace filesystem lock. If a path changed since planning, moved outside the expected workspace folder, contains a symbolic link, belongs to an active helper process, or no longer matches the managed artifact pattern, it is skipped instead of deleted.
+During deletion, MobileBuildMCP revalidates every candidate under the workspace filesystem lock. If a path changed since planning, moved outside the expected workspace folder, contains a symbolic link, belongs to an active helper process, or no longer matches the managed artifact pattern, it is skipped instead of deleted.
 
 ## Scope options
 
@@ -139,7 +139,7 @@ Unknown workspace keys appear in reports, but broad `all` and `family` purge sco
 
 ## Managing DerivedData intentionally
 
-By default, builds use isolated DerivedData under XcodeBuildMCP-managed workspace storage. This avoids cross-project and cross-worktree build conflicts, especially when multiple agents build at the same time.
+By default, builds use isolated DerivedData under MobileBuildMCP-managed workspace storage. This avoids cross-project and cross-worktree build conflicts, especially when multiple agents build at the same time.
 
 If you intentionally want to manage DerivedData elsewhere, set `sessionDefaults.derivedDataPath` in your project config. That moves Xcode's build products to the path you provide, so you are then responsible for its cleanup policy.
 

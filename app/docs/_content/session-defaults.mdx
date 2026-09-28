@@ -13,7 +13,7 @@ Session defaults are **on by default**.
 
 ## How it works
 
-1. At the start of a session, the agent stores your defaults (workspace, scheme, simulator, etc.) via `session_set_defaults`, or picks them up from `.xcodebuildmcp/config.yaml`.
+1. At the start of a session, the agent stores your defaults (workspace, scheme, simulator, etc.) via `session_set_defaults`, or picks them up from `.mobilebuildmcp/config.yaml`.
 2. Every subsequent tool call uses those stored values when a matching parameter is missing.
 3. Ask your agent to show the current defaults at any time. It reads them via `session_show_defaults`.
 4. When you switch projects or context, ask the agent to clear or replace the defaults. It uses `session_clear_defaults` or another `session_set_defaults` call.
@@ -22,11 +22,11 @@ Session defaults are **on by default**.
 
 ### From the agent (runtime)
 
-Tell your agent which workspace (or project), scheme, and simulator to use; it will store those values via `session_set_defaults`. By default these live in memory only. Ask your agent to persist them and they will be saved to `.xcodebuildmcp/config.yaml`, patch-only, so only the keys you set are updated.
+Tell your agent which workspace (or project), scheme, and simulator to use; it will store those values via `session_set_defaults`. By default these live in memory only. Ask your agent to persist them and they will be saved to `.mobilebuildmcp/config.yaml`, patch-only, so only the keys you set are updated.
 
 ### From config (startup)
 
-Seed defaults when the server boots by adding a `sessionDefaults` block to `.xcodebuildmcp/config.yaml`:
+Seed defaults when the server boots by adding a `sessionDefaults` block to `.mobilebuildmcp/config.yaml`:
 
 ```yaml
 schemaVersion: 1
@@ -44,9 +44,9 @@ When your MCP client can't supply workspace context directly, use env vars:
 ```json
 {
   "env": {
-    "XCODEBUILDMCP_WORKSPACE_PATH": "/repo/MyApp.xcworkspace",
-    "XCODEBUILDMCP_SCHEME": "MyApp",
-    "XCODEBUILDMCP_SIMULATOR_NAME": "iPhone 17 Pro"
+    "MOBILEBUILDMCP_WORKSPACE_PATH": "/repo/MyApp.xcworkspace",
+    "MOBILEBUILDMCP_SCHEME": "MyApp",
+    "MOBILEBUILDMCP_SIMULATOR_NAME": "iPhone 17 Pro"
   }
 }
 ```
@@ -108,19 +108,19 @@ disableSessionDefaults: true
 Or via env:
 
 ```shell
-export XCODEBUILDMCP_DISABLE_SESSION_DEFAULTS=true
+export MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS=true
 ```
 
 This restores the legacy behavior where every parameter must be passed on every call.
 
 ## CLI behavior
 
-The CLI auto-fills matching flags from session defaults. If your config sets `scheme`, `projectPath`, and `simulatorName`, `xcodebuildmcp simulator build` just works, no need to repeat those flags. Override for a single call with `--profile <name>` or by passing the flag explicitly.
+The CLI auto-fills matching flags from session defaults. If your config sets `scheme`, `projectPath`, and `simulatorName`, `mobilebuildmcp simulator build` just works, no need to repeat those flags. Override for a single call with `--profile <name>` or by passing the flag explicitly.
 
 See [CLI](/docs/cli) for more.
 
 ## Related
 
-- [Configuration](/docs/configuration), everything else XcodeBuildMCP reads on startup
+- [Configuration](/docs/configuration), everything else MobileBuildMCP reads on startup
 - [Environment Variables](/docs/env-vars), env-based bootstrap
 - [Workflows](/docs/workflows), pick which tool groups are loaded

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
-    const response = await fetch("https://registry.npmjs.org/xcodebuildmcp/latest", {
+    const response = await fetch("https://registry.npmjs.org/mobilebuildmcp/latest", {
       next: { revalidate: 3600 }, // Cache for 1 hour
     })
 

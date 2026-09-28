@@ -4,7 +4,7 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Getting Started", "Installation"]}
   title="Installation"
-  lede="Install XcodeBuildMCP via Homebrew or npm. Both give you the CLI and the MCP server. Once installed, head to Setup to wire it into your editor."
+  lede="Install MobileBuildMCP via Homebrew or npm. Both give you the CLI and the MCP server. Once installed, head to Setup to wire it into your editor."
   meta={["Requires macOS 14.5+", "Xcode 16.x+", "Node.js 18+ (npm only)"]}
 />
 
@@ -19,7 +19,7 @@ import { PageHeader } from "../_components/page-header"
 
 ```shell
 brew tap getsentry/xcodebuildmcp
-brew install xcodebuildmcp
+brew install mobilebuildmcp
 ```
 
 ## Option B: npm / npx
@@ -27,8 +27,8 @@ brew install xcodebuildmcp
 For CLI use, install globally:
 
 ```shell
-npm install -g xcodebuildmcp@latest
-xcodebuildmcp --help
+npm install -g mobilebuildmcp@latest
+mobilebuildmcp --help
 ```
 
 For MCP-server-only use, no global install needed, just reference `npx` in your MCP client config (covered in [Setup](/docs/setup)).
@@ -40,7 +40,7 @@ Pin a specific version by replacing `@latest` with a tag, for example `@2.3.2`.
 Once installed, run the built-in self-update command:
 
 ```shell
-xcodebuildmcp upgrade
+mobilebuildmcp upgrade
 ```
 
 It checks for a newer version and installs it in place using whichever package manager you installed with. See [CLI → Keeping the CLI up to date](/docs/cli#keeping-the-cli-up-to-date) for available flags.
@@ -50,13 +50,13 @@ It checks for a newer version and installs it in place using whichever package m
 Run the doctor to check your environment:
 
 ```shell
-npx --package xcodebuildmcp@latest xcodebuildmcp-doctor
+npx --package mobilebuildmcp@latest mobilebuildmcp-doctor
 ```
 
 Or, if you installed globally:
 
 ```shell
-xcodebuildmcp-doctor
+mobilebuildmcp-doctor
 ```
 
 The doctor reports on Node/Xcode versions, required dependencies, environment variables, and feature availability. Always include its output when filing an issue.
@@ -65,12 +65,12 @@ The doctor reports on Node/Xcode versions, required dependencies, environment va
 
 ```shell
 # Homebrew
-brew uninstall xcodebuildmcp
+brew uninstall mobilebuildmcp
 
 # npm
-npm uninstall -g xcodebuildmcp
+npm uninstall -g mobilebuildmcp
 ```
 
 ## Next step
 
-With XcodeBuildMCP installed, head to [Setup](/docs/setup) to wire it into your editor, run the project config wizard, and do your first build.
+With MobileBuildMCP installed, head to [Setup](/docs/setup) to wire it into your editor, run the project config wizard, and do your first build.

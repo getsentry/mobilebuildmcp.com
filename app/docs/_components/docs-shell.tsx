@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef, useState, type ReactNode } from "react"
@@ -121,11 +120,8 @@ export function DocsShell({ activeSlug, children }: DocsShellProps) {
           {mobileNavOpen ? <Icons.X size={18} /> : <Icons.List size={18} />}
         </button>
         <Link className="brand" href="/docs" onClick={() => setMobileNavOpen(false)}>
-          <span className="brand-logo" aria-hidden>
-            <Image src="/logo.png" alt="" width={28} height={28} priority />
-          </span>
           <div className="brand-title">
-            XcodeBuildMCP
+            MobileBuildMCP
             <span className="brand-chip">docs</span>
           </div>
         </Link>
@@ -144,7 +140,7 @@ export function DocsShell({ activeSlug, children }: DocsShellProps) {
             </Link>
           ))}
           <a
-            href="https://github.com/getsentry/XcodeBuildMCP"
+            href="https://github.com/getsentry/MobileBuildMCP"
             target="_blank"
             rel="noreferrer"
           >

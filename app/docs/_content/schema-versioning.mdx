@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Schema Versioning"]}
   title="Schema Versioning"
-  lede="How XcodeBuildMCP versions, publishes, and maintains structured output JSON Schemas served from xcodebuildmcp.com."
+  lede="How MobileBuildMCP versions, publishes, and maintains structured output JSON Schemas published from the MobileBuildMCP repository."
 />
 
-XcodeBuildMCP publishes structured output schemas at stable website URLs. External consumers can validate CLI JSON output and MCP `structuredContent` against those schemas, so schema changes need the same care as any public contract.
+MobileBuildMCP publishes structured output schemas at stable website URLs. External consumers can validate CLI JSON output and MCP `structuredContent` against those schemas, so schema changes need the same care as any public contract.
 
 ## Goals
 
@@ -21,7 +21,7 @@ Each structured payload has two stable identifiers:
 
 ```json
 {
-  "schema": "xcodebuildmcp.output.build-result",
+  "schema": "mobilebuildmcp.output.build-result",
   "schemaVersion": "1"
 }
 ```
@@ -29,7 +29,7 @@ Each structured payload has two stable identifiers:
 The matching published schema URL is:
 
 ```text
-https://xcodebuildmcp.com/schemas/structured-output/xcodebuildmcp.output.build-result/1.schema.json
+https://raw.githubusercontent.com/getsentry/MobileBuildMCP/main/schemas/structured-output/mobilebuildmcp.output.build-result/1.schema.json
 ```
 
 The in-payload `schema` and `schemaVersion` values must always match the published schema document that validates that payload.
@@ -61,7 +61,7 @@ Breaking changes include:
 If any of those changes are needed, publish a new version instead:
 
 ```text
-schemas/structured-output/xcodebuildmcp.output.build-result/2.schema.json
+schemas/structured-output/mobilebuildmcp.output.build-result/2.schema.json
 ```
 
 Then emit:
@@ -81,7 +81,7 @@ Published schemas use `additionalProperties: false`, so adding a new emitted pro
 For example, adding top-level `nextSteps` requires a new schema version:
 
 ```text
-schemas/structured-output/xcodebuildmcp.output.build-result/2.schema.json
+schemas/structured-output/mobilebuildmcp.output.build-result/2.schema.json
 ```
 
 Then runtime payloads that include `nextSteps` must emit:
@@ -109,19 +109,19 @@ public/schemas/structured-output/
 A source file such as:
 
 ```text
-schemas/structured-output/xcodebuildmcp.output.build-result/1.schema.json
+schemas/structured-output/mobilebuildmcp.output.build-result/1.schema.json
 ```
 
 is published to:
 
 ```text
-public/schemas/structured-output/xcodebuildmcp.output.build-result/1.schema.json
+public/schemas/structured-output/mobilebuildmcp.output.build-result/1.schema.json
 ```
 
 The website then serves it at:
 
 ```text
-https://xcodebuildmcp.com/schemas/structured-output/xcodebuildmcp.output.build-result/1.schema.json
+https://raw.githubusercontent.com/getsentry/MobileBuildMCP/main/schemas/structured-output/mobilebuildmcp.output.build-result/1.schema.json
 ```
 
 ## Publishing workflow
@@ -135,7 +135,7 @@ Trigger conditions:
 
 Publishing steps:
 
-1. Check out `getsentry/XcodeBuildMCP`.
+1. Check out `getsentry/MobileBuildMCP`.
 2. Clone `getsentry/xcodebuildmcp.com` over SSH.
 3. Sync `schemas/structured-output/` into `public/schemas/structured-output/` in the website repository.
 4. Commit the website change if the published files changed.
@@ -165,17 +165,17 @@ The corresponding public key should be installed as a deploy key on the website 
 1. Generate a dedicated SSH key pair for schema publishing.
 
    ```shell
-   ssh-keygen -t ed25519 -C "schema-publisher" -f ./xcodebuildmcp-website-deploy-key
+   ssh-keygen -t ed25519 -C "schema-publisher" -f ./mobilebuildmcp-website-deploy-key
    ```
 
 2. In `getsentry/xcodebuildmcp.com`, add the public key as a deploy key with write access.
-3. In `getsentry/XcodeBuildMCP`, add the private key as an actions secret named `XCODEBUILDMCP_WEBSITE_DEPLOY_KEY`.
+3. In `getsentry/MobileBuildMCP`, add the private key as an actions secret named `XCODEBUILDMCP_WEBSITE_DEPLOY_KEY`.
 4. Trigger the `Publish Schemas` workflow manually once to verify SSH access and sync.
 5. Confirm that the website repository receives the commit and Vercel deploys it.
 6. Confirm a final URL resolves, for example:
 
    ```text
-   https://xcodebuildmcp.com/schemas/structured-output/xcodebuildmcp.output.build-result/1.schema.json
+   https://raw.githubusercontent.com/getsentry/MobileBuildMCP/main/schemas/structured-output/mobilebuildmcp.output.build-result/1.schema.json
    ```
 
 Use a dedicated deploy key for this workflow only. Do not reuse a personal SSH key.
@@ -186,10 +186,10 @@ Consumers should branch on both `schema` and `schemaVersion`:
 
 ```ts
 switch (`${payload.schema}@${payload.schemaVersion}`) {
-  case "xcodebuildmcp.output.build-result@1":
+  case "mobilebuildmcp.output.build-result@1":
     // validate using v1 schema
     break
-  case "xcodebuildmcp.output.build-result@2":
+  case "mobilebuildmcp.output.build-result@2":
     // validate using v2 schema
     break
   default:

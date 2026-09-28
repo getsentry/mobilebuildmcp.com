@@ -12,12 +12,12 @@ import { PageHeader } from "../_components/page-header"
 MCP clients spawn the server over stdio. You don't run it yourself, your client does, based on the config you set in [MCP Clients](/docs/clients).
 
 ```shell
-xcodebuildmcp mcp
+mobilebuildmcp mcp
 ```
 
 ## What's advertised
 
-The server advertises **tools** and **resources** to the client. Tool surface is controlled by `enabledWorkflows` in your config file or the `XCODEBUILDMCP_ENABLED_WORKFLOWS` env var, defaulting to just `simulator` to keep agent context small.
+The server advertises **tools** and **resources** to the client. Tool surface is controlled by `enabledWorkflows` in your config file or the `MOBILEBUILDMCP_ENABLED_WORKFLOWS` env var, defaulting to just `simulator` to keep agent context small.
 
 ## Feature support matrix
 
@@ -38,11 +38,11 @@ Session defaults are enabled by default and are the single biggest token saver. 
 
 Defaults can also be:
 
-- Seeded at startup via `.xcodebuildmcp/config.yaml` (`sessionDefaults:`)
-- Set from env vars (`XCODEBUILDMCP_WORKSPACE_PATH`, `XCODEBUILDMCP_SCHEME`, etc.)
+- Seeded at startup via `.mobilebuildmcp/config.yaml` (`sessionDefaults:`)
+- Set from env vars (`MOBILEBUILDMCP_WORKSPACE_PATH`, `MOBILEBUILDMCP_SCHEME`, etc.)
 - Persisted to disk by passing `persist: true` on `session_set_defaults`
 
-Once a default is set, tools can be called without that parameter and the server fills it in. To require every parameter on every call, set `disableSessionDefaults: true` in `.xcodebuildmcp/config.yaml` (or `XCODEBUILDMCP_DISABLE_SESSION_DEFAULTS=true`).
+Once a default is set, tools can be called without that parameter and the server fills it in. To require every parameter on every call, set `disableSessionDefaults: true` in `.mobilebuildmcp/config.yaml` (or `MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS=true`).
 
 See [Session Defaults](/docs/session-defaults) for the full schema.
 
@@ -54,7 +54,7 @@ For monorepos, keep a separate defaults profile for each sub-project (for exampl
 
 The MCP server advertises only the tools in your enabled workflows. The default is just `simulator` to keep your agent's context window lean. See [Reference > Workflows](/docs/workflows) for the catalog of available workflows and what each one contains.
 
-Add more workflows in `.xcodebuildmcp/config.yaml`:
+Add more workflows in `.mobilebuildmcp/config.yaml`:
 
 ```yaml
 schemaVersion: 1
@@ -69,7 +69,7 @@ Or via env (useful for clients that don't read your project's config file):
 ```json
 {
   "env": {
-    "XCODEBUILDMCP_ENABLED_WORKFLOWS": "simulator,debugging,ui-automation"
+    "MOBILEBUILDMCP_ENABLED_WORKFLOWS": "simulator,debugging,ui-automation"
   }
 }
 ```
@@ -112,7 +112,7 @@ experimentalWorkflowDiscovery: true
 
 ## Xcode IDE bridge
 
-Enable `xcode-ide` to expose Xcode 26+'s `xcrun mcpbridge` tools through XcodeBuildMCP. Two meta-tools appear: `xcode_ide_list_tools` and `xcode_ide_call_tool`. The bridge runs as a persistent daemon-backed session. See [Xcode IDE Bridge](/docs/xcode-ide) for details.
+Enable `xcode-ide` to expose Xcode 26+'s `xcrun mcpbridge` tools through MobileBuildMCP. Two meta-tools appear: `xcode_ide_list_tools` and `xcode_ide_call_tool`. The bridge runs as a persistent daemon-backed session. See [Xcode IDE Bridge](/docs/xcode-ide) for details.
 
 ## Tool annotations
 
@@ -120,12 +120,12 @@ Every tool declares read-only, destructive, and open-world hints so MCP clients 
 
 ## Idle shutdown
 
-MCP server mode does not shut down for idleness by default. To opt in, set `XCODEBUILDMCP_MCP_IDLE_TIMEOUT_MS` to a positive number of milliseconds in your MCP client env config.
+MCP server mode does not shut down for idleness by default. To opt in, set `MOBILEBUILDMCP_MCP_IDLE_TIMEOUT_MS` to a positive number of milliseconds in your MCP client env config.
 
 ```json
 {
   "env": {
-    "XCODEBUILDMCP_MCP_IDLE_TIMEOUT_MS": "600000"
+    "MOBILEBUILDMCP_MCP_IDLE_TIMEOUT_MS": "600000"
   }
 }
 ```
@@ -138,4 +138,4 @@ When enabled, the server exits through the normal graceful shutdown path only af
 
 See [Environment Variables](/docs/env-vars#mcp-idle-shutdown) for the full reference.
 
-See [MCP Protocol Support](/docs/mcp-protocol-support) for the full list of MCP features XcodeBuildMCP implements.
+See [MCP Protocol Support](/docs/mcp-protocol-support) for the full list of MCP features MobileBuildMCP implements.

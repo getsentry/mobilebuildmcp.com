@@ -15,7 +15,7 @@ export default function DocsNotFound() {
           Start at the <Link href="/docs">Introduction</Link>, skim the{" "}
           <Link href="/docs/tools">Tools Reference</Link>, or open an{" "}
           <a
-            href="https://github.com/getsentry/XcodeBuildMCP/issues"
+            href="https://github.com/getsentry/MobileBuildMCP/issues"
             target="_blank"
             rel="noreferrer"
           >

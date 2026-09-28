@@ -4,30 +4,21 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://xcodebuildmcp.com"),
-  title: "XcodeBuildMCP - AI-Powered Xcode Automation",
+  title: "MobileBuildMCP - AI-Powered Xcode Automation",
   description:
-    "Let AI assistants build, test, and debug your iOS apps autonomously. XcodeBuildMCP bridges the gap between AI agents and Xcode.",
+    "Let AI assistants build, test, and debug your iOS apps autonomously. MobileBuildMCP bridges the gap between AI agents and Xcode.",
   openGraph: {
-    title: "XcodeBuildMCP - AI-Powered Xcode Automation",
+    title: "MobileBuildMCP - AI-Powered Xcode Automation",
     description:
-      "Let AI assistants build, test, and debug your iOS apps autonomously. XcodeBuildMCP bridges the gap between AI agents and Xcode.",
+      "Let AI assistants build, test, and debug your iOS apps autonomously. MobileBuildMCP bridges the gap between AI agents and Xcode.",
     type: "website",
     url: "https://xcodebuildmcp.com",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "XcodeBuildMCP",
-      },
-    ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "XcodeBuildMCP - AI-Powered Xcode Automation",
+    card: "summary",
+    title: "MobileBuildMCP - AI-Powered Xcode Automation",
     description:
-      "Let AI assistants build, test, and debug your iOS apps autonomously. XcodeBuildMCP bridges the gap between AI agents and Xcode.",
-    images: ["/og-image.png"],
+      "Let AI assistants build, test, and debug your iOS apps autonomously. MobileBuildMCP bridges the gap between AI agents and Xcode.",
   },
 }
 

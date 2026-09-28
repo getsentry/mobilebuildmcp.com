@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Architecture"]}
   title="Architecture Overview"
-  lede="How an agent or shell command becomes an Xcode action, and how XcodeBuildMCP keeps that behavior shared across MCP, CLI, and long-running background work."
+  lede="How an agent or shell command becomes an Xcode action, and how MobileBuildMCP keeps that behavior shared across MCP, CLI, and long-running background work."
 />
 
-XcodeBuildMCP is one project that does Xcode work — building, running, debugging, simulator and device control, UI automation, scaffolding — and exposes that work through several front doors at once. AI agents reach it over the Model Context Protocol. Humans and scripts reach it through a `xcodebuildmcp` command-line tool. Some commands need state that has to outlive a single shell process, so they hand work off to a background process scoped to the project workspace.
+MobileBuildMCP is one project that does Xcode work — building, running, debugging, simulator and device control, UI automation, scaffolding — and exposes that work through several front doors at once. AI agents reach it over the Model Context Protocol. Humans and scripts reach it through a `mobilebuildmcp` command-line tool. Some commands need state that has to outlive a single shell process, so they hand work off to a background process scoped to the project workspace.
 
 All three paths run the same implementation. This page is the entry point to how that shared implementation is organized. Read it once before the architecture subpages — it defines the vocabulary the rest of the section uses.
 
@@ -26,14 +26,14 @@ These are the canonical terms used throughout the architecture docs. Every other
 - **structured output** — The single canonical JSON result a handler produces for a tool call, validated against a schema under `schemas/structured-output/`.
 - **rendering** — The step that turns a call's fragments, attachments, next steps, and structured output into MCP text, CLI text, JSON, JSONL, or a raw transcript.
 - **render session** — The per-call object that collects fragments and the final structured output as a handler runs, so the runtime boundary can format them appropriately on the way out.
-- **daemon** — A workspace-scoped background process (`xcodebuildmcp daemon`) that owns tool state — debug sessions, video captures, long-running SwiftPM work, the Xcode IDE bridge — that has to survive across short-lived CLI commands.
+- **daemon** — A workspace-scoped background process (`mobilebuildmcp daemon`) that owns tool state — debug sessions, video captures, long-running SwiftPM work, the Xcode IDE bridge — that has to survive across short-lived CLI commands.
 - **transport** — The wire a request travels on to reach a handler: MCP stdio (the standard input/output pipes the MCP server reads and writes), in-process CLI invocation, or a Unix-socket connection (a local interprocess pipe) to the daemon.
 
 ## Request flow
 
 A request moves through the system in roughly the same shape regardless of which front door it came in.
 
-1. **A caller asks for work.** An agent issues an MCP tool call, or a human or script runs an `xcodebuildmcp` subcommand.
+1. **A caller asks for work.** An agent issues an MCP tool call, or a human or script runs an `mobilebuildmcp` subcommand.
 2. **A runtime boundary receives it.** The MCP server, the local CLI, or a daemon-routed CLI command is the first layer to touch the request and is responsible for translating it into a call against the shared tool layer.
 3. **Visibility decides what is even reachable.** Before the call can resolve, the system applies the active workflow selection, evaluates predicates, and checks availability. The combination determines exposure — which tools the runtime will advertise and accept.
 4. **The tool handler runs.** The handler is the same function regardless of front door. It validates inputs, performs the Xcode action, and writes its outcome onto the call context.
@@ -48,8 +48,8 @@ flowchart TB
     Agent["Agent or human"] --> MCPClient["MCP client"]
     Agent --> Shell["Shell / script"]
 
-    MCPClient --> MCPMode["xcodebuildmcp mcp"]
-    Shell --> CLIMode["xcodebuildmcp CLI"]
+    MCPClient --> MCPMode["mobilebuildmcp mcp"]
+    Shell --> CLIMode["mobilebuildmcp CLI"]
 
     subgraph RuntimeBoundaries["Runtime boundaries"]
         MCPMode --> MCPRegistry["MCP tool registry"]

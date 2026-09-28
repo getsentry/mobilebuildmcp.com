@@ -3,10 +3,10 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Architecture", "Tool Lifecycle"]}
   title="Tool Lifecycle"
-  lede="What runs when XcodeBuildMCP performs one Xcode action — the input it accepts, the work it does, and the result and progress it hands back."
+  lede="What runs when MobileBuildMCP performs one Xcode action — the input it accepts, the work it does, and the result and progress it hands back."
 />
 
-A tool in XcodeBuildMCP is one user-visible action — listing simulators, building a scheme, running a test, capturing a screenshot. Each tool is a small module responsible for three things: validating its input, doing the actual Xcode work, and producing one canonical result. Anything to do with how that result gets formatted for an MCP client, a terminal, or a JSON pipeline lives outside the tool. This page is the contract for that small module.
+A tool in MobileBuildMCP is one user-visible action — listing simulators, building a scheme, running a test, capturing a screenshot. Each tool is a small module responsible for three things: validating its input, doing the actual Xcode work, and producing one canonical result. Anything to do with how that result gets formatted for an MCP client, a terminal, or a JSON pipeline lives outside the tool. This page is the contract for that small module.
 
 ## Terms used here
 

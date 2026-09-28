@@ -82,7 +82,7 @@ export async function list_widgetsLogic(
 
   ctx.structuredOutput = {
     result,
-    schema: 'xcodebuildmcp.output.widget-list',
+    schema: 'mobilebuildmcp.output.widget-list',
     schemaVersion: '1',
   };
 }
@@ -99,12 +99,12 @@ Prefer an existing domain result when it fits. Common schema IDs include:
 
 | Result | Schema ID |
 |--------|-----------|
-| Build result | `xcodebuildmcp.output.build-result` |
-| Build and run result | `xcodebuildmcp.output.build-run-result` |
-| Test result | `xcodebuildmcp.output.test-result` |
-| Simulator list | `xcodebuildmcp.output.simulator-list` |
-| App path | `xcodebuildmcp.output.app-path` |
-| UI action | `xcodebuildmcp.output.ui-action-result` |
+| Build result | `mobilebuildmcp.output.build-result` |
+| Build and run result | `mobilebuildmcp.output.build-run-result` |
+| Test result | `mobilebuildmcp.output.test-result` |
+| Simulator list | `mobilebuildmcp.output.simulator-list` |
+| App path | `mobilebuildmcp.output.app-path` |
+| UI action | `mobilebuildmcp.output.ui-action-result` |
 
 Create a new schema only when no existing schema accurately describes the payload. The schema validates the full structured response, not only the `data` object. Published schema versions use integer strings such as `"1"` and `"2"`.
 
@@ -128,7 +128,7 @@ annotations:
   destructiveHint: false
   openWorldHint: false
 outputSchema:
-  schema: xcodebuildmcp.output.widget-list
+  schema: mobilebuildmcp.output.widget-list
   version: "1"
 ```
 
@@ -275,7 +275,7 @@ export async function watch_logsLogic(
       error: response.error ?? null,
       exitCode: response.exitCode ?? null,
     },
-    schema: 'xcodebuildmcp.output.log-stream',
+    schema: 'mobilebuildmcp.output.log-stream',
     schemaVersion: '1',
   };
 }
@@ -333,7 +333,7 @@ export async function build_widgetLogic(
 | `createBuildInvocationFragment(kind, op, request)` | Returns the leading `BuildInvocationFragment` that announces what is about to run. Emit it once before the executor starts so the renderer has full invocation context for the rest of the stream. |
 | `createStreamingExecutionContext(ctx)` | Adapts the handler's `ctx.emit` into the callback shape the pipeline's executor expects. The pipeline pushes parsed fragments back to the handler context through this adapter. |
 | `createBuild<Tool>Executor(executor, prepared)` | Tool-specific. Returns the async function that actually invokes `xcrun xcodebuild` with the prepared request, streams its stdout through the pipeline's parser, and returns the canonical domain result. The real subprocess call lives here. |
-| `setXcodebuildStructuredOutput(ctx, kind, result)` | Sets `ctx.structuredOutput` with the canonical schema ID (`xcodebuildmcp.output.build-result`, `…build-run-result`, or `…test-result`) and the current schema version. |
+| `setXcodebuildStructuredOutput(ctx, kind, result)` | Sets `ctx.structuredOutput` with the canonical schema ID (`mobilebuildmcp.output.build-result`, `…build-run-result`, or `…test-result`) and the current schema version. |
 
 Build-like results must include `request` in the final result. Do not rely on the streamed invocation fragment for final rendering, `--output json`, or MCP `structuredContent`.
 

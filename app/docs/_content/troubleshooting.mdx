@@ -16,16 +16,16 @@ import { PageHeader } from "../_components/page-header"
 
 ## Run the doctor
 
-The doctor checks system configuration and reports dependency/capability status for key XcodeBuildMCP workflows and runtime features.
+The doctor checks system configuration and reports dependency/capability status for key MobileBuildMCP workflows and runtime features.
 
 ```shell
-npx --package xcodebuildmcp@latest xcodebuildmcp-doctor
+npx --package mobilebuildmcp@latest mobilebuildmcp-doctor
 ```
 
 Or, if you installed globally:
 
 ```shell
-xcodebuildmcp-doctor
+mobilebuildmcp-doctor
 ```
 
 It reports on:
@@ -33,7 +33,7 @@ It reports on:
 - System and Node.js environment
 - Xcode installation and configuration
 - Dependency and capability status (xcodebuild, UI automation binary, debugger backend)
-- Environment variables affecting XcodeBuildMCP
+- Environment variables affecting MobileBuildMCP
 - Feature availability status
 
 <Callout variant="info" title="Agent-driven doctor">
@@ -44,19 +44,19 @@ It reports on:
 
 UI automation (`tap`, `swipe`, `type_text`, `snapshot_ui`) and simulator video capture rely on the bundled AXe helper. In the CLI these tools use kebab-case names such as `type-text` and `snapshot-ui`. If the doctor reports the helper as missing:
 
-- Confirm `bundled/` artifacts exist in your install. If not, reinstall XcodeBuildMCP.
-- If you need to point at a custom binary, set `axePath` in `.xcodebuildmcp/config.yaml` (or the `XCODEBUILDMCP_AXE_PATH` env var). See [Environment Variables](/docs/env-vars).
+- Confirm `bundled/` artifacts exist in your install. If not, reinstall MobileBuildMCP.
+- If you need to point at a custom binary, set `axePath` in `.mobilebuildmcp/config.yaml` (or the `MOBILEBUILDMCP_AXE_PATH` env var). See [Environment Variables](/docs/env-vars).
 - Re-run the doctor to confirm detection.
 
 ## Tool timeouts
 
-Some MCP clients have short tool timeouts. If you see `timed out awaiting tools/call after 60s`, `timed out awaiting tools/call after 120s`, or similar in Codex, set the timeout inside the XcodeBuildMCP server block:
+Some MCP clients have short tool timeouts. If you see `timed out awaiting tools/call after 60s`, `timed out awaiting tools/call after 120s`, or similar in Codex, set the timeout inside the MobileBuildMCP server block:
 
 ```toml
 # ~/.codex/config.toml
-[mcp_servers.XcodeBuildMCP]
+[mcp_servers.MobileBuildMCP]
 command = "npx"
-args = ["-y", "xcodebuildmcp@latest", "mcp"]
+args = ["-y", "mobilebuildmcp@latest", "mcp"]
 tool_timeout_sec = 600
 ```
 
@@ -65,7 +65,7 @@ A top-level `tool_timeout_sec = 600` is ignored by Codex for MCP tool calls.
 Claude Code and Cursor don't surface tool timeouts directly, but you can extend the daemon startup timeout with:
 
 ```shell
-export XCODEBUILDMCP_STARTUP_TIMEOUT_MS=10000
+export MOBILEBUILDMCP_STARTUP_TIMEOUT_MS=10000
 ```
 
 ## Missing tools
@@ -73,7 +73,7 @@ export XCODEBUILDMCP_STARTUP_TIMEOUT_MS=10000
 If tools don't appear, your client is probably running with the default `simulator` workflow only. Expand:
 
 ```yaml
-# .xcodebuildmcp/config.yaml
+# .mobilebuildmcp/config.yaml
 enabledWorkflows: ["simulator", "device", "debugging", "ui-automation"]
 ```
 
@@ -81,7 +81,7 @@ Or via env in your MCP client config:
 
 ```json
 {
-  "env": { "XCODEBUILDMCP_ENABLED_WORKFLOWS": "simulator,device,debugging,ui-automation" }
+  "env": { "MOBILEBUILDMCP_ENABLED_WORKFLOWS": "simulator,device,debugging,ui-automation" }
 }
 ```
 
@@ -92,10 +92,10 @@ See [Workflows](/docs/workflows) for the full list.
 Agents running inside Xcode start with a minimal `PATH`. If `npx` can't be found, wrap the command with `zsh -lc` and prepend a known-good `PATH`:
 
 ```toml
-[mcp_servers.XcodeBuildMCP]
+[mcp_servers.MobileBuildMCP]
 args = [
   "-lc",
-  "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y xcodebuildmcp@latest mcp"
+  "PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin; export NVM_DIR=\"$HOME/.nvm\"; [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"; nvm use --silent >/dev/null 2>&1 || true; npx -y mobilebuildmcp@latest mcp"
 ]
 command = "/bin/zsh"
 enabled = true
@@ -106,7 +106,7 @@ See the [Xcode (Codex Agent) client config](/docs/clients#xcode-codex-agent) for
 
 ## Device build fails with "No signing certificate found"
 
-This is always a signing misconfiguration. XcodeBuildMCP can't fix it; Xcode has to. Open the project in Xcode, enable automatic signing, pick a development team, and try again. See [Device Code Signing](/docs/device-signing).
+This is always a signing misconfiguration. MobileBuildMCP can't fix it; Xcode has to. Open the project in Xcode, enable automatic signing, pick a development team, and try again. See [Device Code Signing](/docs/device-signing).
 
 ## Simulator is "booted" but nothing launches
 
@@ -121,32 +121,32 @@ If it persists, erase the simulator and reboot:
 
 ```shell
 xcrun simctl erase <UDID>
-xcodebuildmcp simulator boot --simulator-id <UDID>
+mobilebuildmcp simulator boot --simulator-id <UDID>
 ```
 
 ## Daemon won't start
 
 ```shell
 # Check for stale sockets
-xcodebuildmcp daemon list
+mobilebuildmcp daemon list
 
 # Force restart
-xcodebuildmcp daemon restart
+mobilebuildmcp daemon restart
 
 # Run in the foreground to see logs
-xcodebuildmcp daemon start --foreground
+mobilebuildmcp daemon start --foreground
 ```
 
 ## Socket permission errors
 
 ```shell
-chmod 700 ~/.xcodebuildmcp
-chmod -R 700 ~/.xcodebuildmcp/daemons
+chmod 700 ~/.mobilebuildmcp
+chmod -R 700 ~/.mobilebuildmcp/daemons
 ```
 
 ## Still stuck?
 
-Open an issue at [getsentry/XcodeBuildMCP/issues](https://github.com/getsentry/XcodeBuildMCP/issues) with your doctor output and a short reproduction. The more surface area the team sees, the faster the fix.
+Open an issue at [getsentry/MobileBuildMCP/issues](https://github.com/getsentry/MobileBuildMCP/issues) with your doctor output and a short reproduction. The more surface area the team sees, the faster the fix.
 
 ## Related
 

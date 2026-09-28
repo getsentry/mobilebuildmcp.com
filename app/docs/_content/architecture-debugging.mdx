@@ -43,7 +43,7 @@ The injected debugging context provides:
 Backend selection order:
 
 1. Explicit backend argument on the attach call.
-2. `XCODEBUILDMCP_DEBUGGER_BACKEND` or `debuggerBackend` from resolved config.
+2. `MOBILEBUILDMCP_DEBUGGER_BACKEND` or `debuggerBackend` from resolved config.
 3. Default config value, currently `dap`.
 
 Accepted backend values are:
@@ -118,7 +118,7 @@ The backend uses an interactive process model:
 
 1. Spawn `xcrun lldb --no-lldbinit` with a custom prompt.
 2. Write a command.
-3. Write a sentinel command that prints `__XCODEBUILDMCP_DONE__`.
+3. Write a sentinel command that prints `__MOBILEBUILDMCP_DONE__`.
 4. Buffer stdout and stderr until the sentinel appears.
 5. Trim the buffer to the next prompt.
 6. Remove prompt echoes, sentinel lines, and helper command echoes.

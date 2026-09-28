@@ -4,7 +4,7 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Reference", "Workflows"]}
   title="Workflows"
-  lede="The catalog of tool groups XcodeBuildMCP exposes through MCP, and what each one contains."
+  lede="The catalog of tool groups MobileBuildMCP exposes through MCP, and what each one contains."
 />
 
 ## What workflows are
@@ -14,12 +14,12 @@ A workflow is a named group of related tools (`simulator`, `debugging`, `ui-auto
 By default only the `simulator` workflow is enabled. To enable more (or define your own), see [MCP Server Mode → Workflow selection](/docs/mcp-mode#workflow-selection) for the full configuration surface, including custom workflows and experimental runtime discovery.
 
 <Callout variant="info" title="The CLI is different">
-  The CLI does not gate by enabled workflows. Every workflow's commands are always available as `xcodebuildmcp <workflow> <tool>`. The CLI does not pay an upfront context cost because agents and humans discover commands progressively via `--help`; `enabledWorkflows` only affects what the MCP server advertises.
+  The CLI does not gate by enabled workflows. Every workflow's commands are always available as `mobilebuildmcp <workflow> <tool>`. The CLI does not pay an upfront context cost because agents and humans discover commands progressively via `--help`; `enabledWorkflows` only affects what the MCP server advertises.
 </Callout>
 
 ## Available workflows
 
-This list is generated live from the latest [getsentry/XcodeBuildMCP](https://github.com/getsentry/XcodeBuildMCP) release.
+This list is generated live from the latest [getsentry/MobileBuildMCP](https://github.com/getsentry/MobileBuildMCP) release.
 
 <LiveWorkflowsTable />
 
@@ -27,4 +27,4 @@ This list is generated live from the latest [getsentry/XcodeBuildMCP](https://gi
 
 - [MCP Server Mode → Workflow selection](/docs/mcp-mode#workflow-selection): how to enable, customize, and override workflows.
 - [Tools Reference](/docs/tools): every tool by name, with the workflow it belongs to.
-- [Configuration](/docs/configuration): full config schema for `.xcodebuildmcp/config.yaml`.
+- [Configuration](/docs/configuration): full config schema for `.mobilebuildmcp/config.yaml`.

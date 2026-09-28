@@ -7,7 +7,7 @@ import { SchemaExplorer } from "../_components/schema-explorer"
   lede="Browse the structured-output JSON Schemas published with the website. Each schema family keeps old versions available at stable URLs."
 />
 
-XcodeBuildMCP tool results include a `schema` identifier and a `schemaVersion` string. Use those fields together to choose the published schema that validates the `data` payload returned by CLI JSON output or MCP `structuredContent`.
+MobileBuildMCP tool results include a `schema` identifier and a `schemaVersion` string. Use those fields together to choose the published schema that validates the `data` payload returned by CLI JSON output or MCP `structuredContent`.
 
 Each link below points at the raw JSON Schema served from `/schemas/structured-output/...`.
 
@@ -16,13 +16,13 @@ Each link below points at the raw JSON Schema served from `/schemas/structured-o
 ## URL format
 
 ```text
-https://xcodebuildmcp.com/schemas/structured-output/<schema>/<version>.schema.json
+https://raw.githubusercontent.com/getsentry/MobileBuildMCP/main/schemas/structured-output/<schema>/<version>.schema.json
 ```
 
 For example:
 
 ```text
-https://xcodebuildmcp.com/schemas/structured-output/xcodebuildmcp.output.build-result/2.schema.json
+https://raw.githubusercontent.com/getsentry/MobileBuildMCP/main/schemas/structured-output/mobilebuildmcp.output.build-result/2.schema.json
 ```
 
 ## Related

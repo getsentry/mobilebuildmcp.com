@@ -7,11 +7,11 @@ import { PageHeader } from "../_components/page-header"
   lede="What we collect, why, and how to turn it off."
 />
 
-XcodeBuildMCP uses [Sentry](https://sentry.io) for internal error monitoring. This helps track crashes and unexpected faults in the server code itself so the team can fix them. By default, the scope is strictly limited to XcodeBuildMCP's own runtime failures.
+MobileBuildMCP uses [Sentry](https://sentry.io) for internal error monitoring. This helps track crashes and unexpected faults in the server code itself so the team can fix them. By default, the scope is strictly limited to MobileBuildMCP's own runtime failures.
 
 ## What's sent
 
-- **Internal XcodeBuildMCP failures only**: for example, daemon or MCP runtime faults, unexpected exceptions in server code.
+- **Internal MobileBuildMCP failures only**: for example, daemon or MCP runtime faults, unexpected exceptions in server code.
 - **Internal operational logs** only when the server explicitly tags an event for Sentry. Standard console logs are not auto-forwarded.
 - **Redacted event payloads**: user home paths become `/Users/<redacted>/...`, request/user context is scrubbed before send.
 
@@ -29,7 +29,7 @@ Set the env var in your MCP client config:
 ```json
 {
   "env": {
-    "XCODEBUILDMCP_SENTRY_DISABLED": "true"
+    "MOBILEBUILDMCP_SENTRY_DISABLED": "true"
   }
 }
 ```
@@ -43,16 +43,16 @@ sentryDisabled: true
 Or at the shell:
 
 ```shell
-export XCODEBUILDMCP_SENTRY_DISABLED=true
+export MOBILEBUILDMCP_SENTRY_DISABLED=true
 ```
 
 Any of the three paths fully disables the SDK.
 
 ## Why telemetry at all
 
-XcodeBuildMCP sits between your agent and Xcode's build system. A lot of edge cases (weird simulator states, odd Xcode versions, rare xcodebuild output shapes) only surface when something breaks in the wild. Narrow, opt-outable error telemetry is how the team catches and fixes those without asking every user to file a bug.
+MobileBuildMCP sits between your agent and Xcode's build system. A lot of edge cases (weird simulator states, odd Xcode versions, rare xcodebuild output shapes) only surface when something breaks in the wild. Narrow, opt-outable error telemetry is how the team catches and fixes those without asking every user to file a bug.
 
-The telemetry scope was tightened in [v2.1.0](https://github.com/getsentry/XcodeBuildMCP/blob/main/CHANGELOG.md) to capture only internal runtime failures after [#204](https://github.com/getsentry/XcodeBuildMCP/issues/204).
+The telemetry scope was tightened in [v2.1.0](https://github.com/getsentry/MobileBuildMCP/blob/main/CHANGELOG.md) to capture only internal runtime failures after [#204](https://github.com/getsentry/MobileBuildMCP/issues/204).
 
 ## Related
 

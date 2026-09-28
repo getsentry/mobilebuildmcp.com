@@ -5,7 +5,7 @@ import { ToolExplorer } from "../_components/tool-explorer"
 <PageHeader
   breadcrumbs={["Docs", "Reference", "Tools"]}
   title="Tools Reference"
-  lede={<>All <LiveToolCount /> tools XcodeBuildMCP advertises, grouped by workflow. Data is fetched live from the latest tag of getsentry/XcodeBuildMCP and cached for one hour.</>}
+  lede={<>All <LiveToolCount /> tools MobileBuildMCP advertises, grouped by workflow. Data is fetched live from the latest tag of getsentry/MobileBuildMCP and cached for one hour.</>}
 />
 
 <Suspense fallback={<div style={{ padding: 24, color: "var(--fg-muted)" }}>Loading tools…</div>}>
@@ -99,5 +99,5 @@ The one-shot tool your agent will reach for most. Builds the scheme, installs th
 - **CLI name**: the short verb used under a workflow in the CLI (for example `build-and-run` under `simulator`). Click a tool card to see both.
 
 <Callout variant="info" title="Always up to date">
-  This page is generated live from the latest release tag of [getsentry/XcodeBuildMCP](https://github.com/getsentry/XcodeBuildMCP). Every tool name, description, and workflow assignment matches the shipped release; a new version of XcodeBuildMCP shows up here within an hour of publishing.
+  This page is generated live from the latest release tag of [getsentry/MobileBuildMCP](https://github.com/getsentry/MobileBuildMCP). Every tool name, description, and workflow assignment matches the shipped release; a new version of MobileBuildMCP shows up here within an hour of publishing.
 </Callout>

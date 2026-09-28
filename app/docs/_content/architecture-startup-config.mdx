@@ -6,7 +6,7 @@ import { PageHeader } from "../_components/page-header"
   lede="How a process boots, decides which configuration to apply, and prepares the tools a caller can reach — without making cheap commands pay for the full runtime."
 />
 
-When you run any `xcodebuildmcp` command, the process has to decide how much setup to do before it can answer. Printing a version or running `init` should not load every manifest in the project; the MCP server has to load almost everything because an agent will keep asking. This page is about that decision — what the early bootstrap step does, what each runtime initializes after it, and where configuration values come from.
+When you run any `mobilebuildmcp` command, the process has to decide how much setup to do before it can answer. Printing a version or running `init` should not load every manifest in the project; the MCP server has to load almost everything because an agent will keep asking. This page is about that decision — what the early bootstrap step does, what each runtime initializes after it, and where configuration values come from.
 
 ## Terms used here
 
@@ -77,8 +77,8 @@ Configuration is layered so each source has a clear job. Runtime values win beca
 ```mermaid
 flowchart TB
     Highest["Highest precedence"] --> Runtime["Runtime overrides<br/>session_set_defaults and explicit runtime overrides"]
-    Runtime --> File["Project config<br/>.xcodebuildmcp/config.yaml"]
-    File --> Env["Environment variables<br/>XCODEBUILDMCP_* and related env vars"]
+    Runtime --> File["Project config<br/>.mobilebuildmcp/config.yaml"]
+    File --> Env["Environment variables<br/>MOBILEBUILDMCP_* and related env vars"]
     Env --> Defaults["Built-in defaults"]
 
     Runtime -. "Used for active session choices" .-> SessionDefaults["Session defaults store"]

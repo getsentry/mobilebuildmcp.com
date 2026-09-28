@@ -4,12 +4,12 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Getting Started", "Setup"]}
   title="Setup"
-  lede="You've installed XcodeBuildMCP. Here's how to wire it into your editor, configure defaults for your project, and run your first build."
+  lede="You've installed MobileBuildMCP. Here's how to wire it into your editor, configure defaults for your project, and run your first build."
 />
 
-## 1. Add XcodeBuildMCP to your editor
+## 1. Add MobileBuildMCP to your editor
 
-Your agent connects to XcodeBuildMCP over MCP. Pick your editor and paste its config block:
+Your agent connects to MobileBuildMCP over MCP. Pick your editor and paste its config block:
 
 - **[Claude Code](/docs/clients#claude-code)**: one command
 - **[Cursor](/docs/clients#cursor)**: project-scoped `.cursor/mcp.json`
@@ -23,10 +23,10 @@ Once the server is connected, your agent can list tools. With the default config
 
 ## 2. Run the setup wizard
 
-Run this in your project root. It creates or updates `.xcodebuildmcp/config.yaml` with everything your agent needs to stop asking for the basics on every call:
+Run this in your project root. It creates or updates `.mobilebuildmcp/config.yaml` with everything your agent needs to stop asking for the basics on every call:
 
 ```shell
-xcodebuildmcp setup
+mobilebuildmcp setup
 ```
 
 The wizard walks you through:
@@ -37,7 +37,7 @@ The wizard walks you through:
 - **Simulator defaults**: preferred simulator by name or UDID
 - **Debug options**: whether to enable debug logging and the doctor tool
 
-Non-interactive mode is available for CI and scripts (`xcodebuildmcp setup --help`).
+Non-interactive mode is available for CI and scripts (`mobilebuildmcp setup --help`).
 
 ### Recommended vs default workflows
 
@@ -49,15 +49,15 @@ The wizard splits workflows into two groups based on your target platforms:
 Target platforms are guidance for setup only. They do not gate tool exposure at runtime: any workflow you enable still advertises its tools through MCP regardless of platform metadata. Predicates and the `availability` field handle runtime gating, see [Workflows](/docs/workflows) and [MCP Server Mode → Workflow selection](/docs/mcp-mode#workflow-selection) for the full picture.
 
 <Callout variant="info" title="No MCP client context? No problem.">
-  If your client doesn't read `.xcodebuildmcp/config.yaml` from the workspace (some don't), you can export an env-based config block with `xcodebuildmcp setup --format mcp-json` and paste it into your MCP client config.
+  If your client doesn't read `.mobilebuildmcp/config.yaml` from the workspace (some don't), you can export an env-based config block with `mobilebuildmcp setup --format mcp-json` and paste it into your MCP client config.
 </Callout>
 
 ## 3. (Optional) Install an agent skill
 
-If you're using Codex, Cursor or another client, installing the agent skill helps your agent use XcodeBuildMCP effectively without burning tokens rediscovering conventions:
+If you're using Codex, Cursor or another client, installing the agent skill helps your agent use MobileBuildMCP effectively without burning tokens rediscovering conventions:
 
 ```shell
-xcodebuildmcp init
+mobilebuildmcp init
 ```
 
 The installer auto-detects your client and drops the right skill (CLI or MCP) in the right directory. See [Agent Skills](/docs/skills) for flags and supported clients.
@@ -90,4 +90,4 @@ After the first `session_set_defaults` call, every subsequent tool call reuses t
 
 ## Troubleshooting
 
-If the server doesn't start or tools don't appear, see [Troubleshooting](/docs/troubleshooting). Always paste `xcodebuildmcp doctor` output when filing an issue.
+If the server doesn't start or tools don't appear, see [Troubleshooting](/docs/troubleshooting). Always paste `mobilebuildmcp doctor` output when filing an issue.

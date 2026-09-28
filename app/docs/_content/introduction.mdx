@@ -25,7 +25,7 @@ import { Hero } from "../_components/hero"
 
 ## What's inside
 
-XcodeBuildMCP gives AI coding agents up-to <LiveToolCount /> tools across <LiveWorkflowCount /> workflows for iOS, iPadOS, macOS, watchOS, tvOS, and visionOS development. Build, test, debug, and deploy your iOS and macOS apps without leaving your agent.
+MobileBuildMCP gives AI coding agents up-to <LiveToolCount /> tools across <LiveWorkflowCount /> workflows for iOS, iPadOS, macOS, watchOS, tvOS, and visionOS development. Build, test, debug, and deploy your iOS and macOS apps without leaving your agent.
 
 <div className="feature-grid">
   <div className="feature">
@@ -84,15 +84,15 @@ XcodeBuildMCP gives AI coding agents up-to <LiveToolCount /> tools across <LiveW
 
 <Tabs tabs={[
   { label: "MCP server", content: (
-    <CodeBlock lang="shell" plain={"xcodebuildmcp mcp"}>
+    <CodeBlock lang="shell" plain={"mobilebuildmcp mcp"}>
 {`# Started by your MCP client via stdio
-xcodebuildmcp mcp`}
+mobilebuildmcp mcp`}
     </CodeBlock>
   ) },
   { label: "CLI", content: (
-    <CodeBlock lang="shell" plain={"xcodebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj"}>
+    <CodeBlock lang="shell" plain={"mobilebuildmcp simulator build --scheme MyApp --project-path ./MyApp.xcodeproj"}>
 {`# Run any tool directly from your terminal
-xcodebuildmcp simulator build \\
+mobilebuildmcp simulator build \\
   --scheme MyApp \\
   --project-path ./MyApp.xcodeproj`}
     </CodeBlock>
@@ -101,16 +101,16 @@ xcodebuildmcp simulator build \\
 
 The MCP server speaks [Model Context Protocol](https://modelcontextprotocol.io/) over stdio. The CLI exposes every tool directly for scripting, CI, and manual debugging. Both share the same code, the same config file, and the same per-workspace daemon.
 
-## Why XcodeBuildMCP
+## Why MobileBuildMCP
 
-Agents shelling out to <code>xcodebuild</code> get brittle, verbose, and inconsistent results. XcodeBuildMCP gives them:
+Agents shelling out to <code>xcodebuild</code> get brittle, verbose, and inconsistent results. MobileBuildMCP gives them:
 
 - **Stable tool names and flags**, versioned per release.
 - **Structured outputs** with pre-parsed build diagnostics, durable preflight/footer sections, and NDJSON streams on demand.
 - **Session defaults** that eliminate repeated scheme/project/simulator boilerplate across tool calls.
-- **Two optional agent skills** (`xcodebuildmcp init`) that prime Claude Code, Cursor, and Codex with the right conventions.
+- **Two optional agent skills** (`mobilebuildmcp init`) that prime Claude Code, Cursor, and Codex with the right conventions.
 - **Per-workspace daemon** for stateful operations (log capture, debugging, video) with automatic start/stop.
 
 <Callout variant="info" title="You know what we do for a living.">
-  XcodeBuildMCP ships with Sentry for internal runtime errors only. User project failures (build, test, config) are never sent, and tool arguments/outputs are never captured. Opt out any time with <code>XCODEBUILDMCP_SENTRY_DISABLED=true</code>. See <Link href="/docs/privacy">Privacy &amp; Telemetry</Link>.
+  MobileBuildMCP ships with Sentry for internal runtime errors only. User project failures (build, test, config) are never sent, and tool arguments/outputs are never captured. Opt out any time with <code>MOBILEBUILDMCP_SENTRY_DISABLED=true</code>. See <Link href="/docs/privacy">Privacy &amp; Telemetry</Link>.
 </Callout>

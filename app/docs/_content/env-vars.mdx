@@ -4,14 +4,14 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Reference", "Configuration", "Environment Variables"]}
   title="Environment Variables"
-  lede="Every env var XcodeBuildMCP reads on startup. Use these to bootstrap MCP clients that can't supply workspace context directly."
+  lede="Every env var MobileBuildMCP reads on startup. Use these to bootstrap MCP clients that can't supply workspace context directly."
 />
 
-Set env vars in the `env` field of your MCP client config (for example `mcp_config.json` for Windsurf, `.vscode/mcp.json` for VS Code, or `claude_desktop_config.json` for Claude Desktop). For repo-scoped structured settings, prefer `.xcodebuildmcp/config.yaml`, see [Configuration](/docs/configuration).
+Set env vars in the `env` field of your MCP client config (for example `mcp_config.json` for Windsurf, `.vscode/mcp.json` for VS Code, or `claude_desktop_config.json` for Claude Desktop). For repo-scoped structured settings, prefer `.mobilebuildmcp/config.yaml`, see [Configuration](/docs/configuration).
 
 ## Precedence
 
-`session_set_defaults` > `.xcodebuildmcp/config.yaml` > env vars. Each layer serves a different context:
+`session_set_defaults` > `.mobilebuildmcp/config.yaml` > env vars. Each layer serves a different context:
 
 - **Config file** is the canonical home for structured, repo-scoped, version-controlled settings.
 - **Env vars** are best for flat startup defaults in MCP clients with limited workspace support.
@@ -21,94 +21,94 @@ Set env vars in the `env` field of your MCP client config (for example `mcp_conf
 
 | Config option | Environment variable |
 |---------------|---------------------|
-| `enabledWorkflows` | `XCODEBUILDMCP_ENABLED_WORKFLOWS` (comma-separated) |
-| `experimentalWorkflowDiscovery` | `XCODEBUILDMCP_EXPERIMENTAL_WORKFLOW_DISCOVERY` |
-| Startup working directory | `XCODEBUILDMCP_CWD` |
-| `disableSessionDefaults` | `XCODEBUILDMCP_DISABLE_SESSION_DEFAULTS` |
-| `disableXcodeAutoSync` | `XCODEBUILDMCP_DISABLE_XCODE_AUTO_SYNC` |
+| `enabledWorkflows` | `MOBILEBUILDMCP_ENABLED_WORKFLOWS` (comma-separated) |
+| `experimentalWorkflowDiscovery` | `MOBILEBUILDMCP_EXPERIMENTAL_WORKFLOW_DISCOVERY` |
+| Startup working directory | `MOBILEBUILDMCP_CWD` |
+| `disableSessionDefaults` | `MOBILEBUILDMCP_DISABLE_SESSION_DEFAULTS` |
+| `disableXcodeAutoSync` | `MOBILEBUILDMCP_DISABLE_XCODE_AUTO_SYNC` |
 | `incrementalBuildsEnabled` | `INCREMENTAL_BUILDS_ENABLED` |
-| `filePathRenderStyle` | `XCODEBUILDMCP_FILE_PATH_RENDER_STYLE` (`list` or `tree`) |
-| `debug` | `XCODEBUILDMCP_DEBUG` |
-| `showTestTiming` | `XCODEBUILDMCP_SHOW_TEST_TIMING` |
-| `sentryDisabled` | `XCODEBUILDMCP_SENTRY_DISABLED` |
-| `debuggerBackend` | `XCODEBUILDMCP_DEBUGGER_BACKEND` |
-| `dapRequestTimeoutMs` | `XCODEBUILDMCP_DAP_REQUEST_TIMEOUT_MS` |
-| `dapLogEvents` | `XCODEBUILDMCP_DAP_LOG_EVENTS` |
-| `launchJsonWaitMs` | `XBMCP_LAUNCH_JSON_WAIT_MS` |
-| MCP idle timeout | `XCODEBUILDMCP_MCP_IDLE_TIMEOUT_MS` |
-| `uiDebuggerGuardMode` | `XCODEBUILDMCP_UI_DEBUGGER_GUARD_MODE` |
-| `axePath` | `XCODEBUILDMCP_AXE_PATH` |
-| `iosTemplatePath` | `XCODEBUILDMCP_IOS_TEMPLATE_PATH` |
-| `iosTemplateVersion` | `XCODEBUILD_MCP_IOS_TEMPLATE_VERSION` |
-| `macosTemplatePath` | `XCODEBUILDMCP_MACOS_TEMPLATE_PATH` |
-| `macosTemplateVersion` | `XCODEBUILD_MCP_MACOS_TEMPLATE_VERSION` |
+| `filePathRenderStyle` | `MOBILEBUILDMCP_FILE_PATH_RENDER_STYLE` (`list` or `tree`) |
+| `debug` | `MOBILEBUILDMCP_DEBUG` |
+| `showTestTiming` | `MOBILEBUILDMCP_SHOW_TEST_TIMING` |
+| `sentryDisabled` | `MOBILEBUILDMCP_SENTRY_DISABLED` |
+| `debuggerBackend` | `MOBILEBUILDMCP_DEBUGGER_BACKEND` |
+| `dapRequestTimeoutMs` | `MOBILEBUILDMCP_DAP_REQUEST_TIMEOUT_MS` |
+| `dapLogEvents` | `MOBILEBUILDMCP_DAP_LOG_EVENTS` |
+| `launchJsonWaitMs` | `MOBILEBUILDMCP_LAUNCH_JSON_WAIT_MS` |
+| MCP idle timeout | `MOBILEBUILDMCP_MCP_IDLE_TIMEOUT_MS` |
+| `uiDebuggerGuardMode` | `MOBILEBUILDMCP_UI_DEBUGGER_GUARD_MODE` |
+| `axePath` | `MOBILEBUILDMCP_AXE_PATH` |
+| `iosTemplatePath` | `MOBILEBUILDMCP_IOS_TEMPLATE_PATH` |
+| `iosTemplateVersion` | `MOBILEBUILD_MCP_IOS_TEMPLATE_VERSION` |
+| `macosTemplatePath` | `MOBILEBUILDMCP_MACOS_TEMPLATE_PATH` |
+| `macosTemplateVersion` | `MOBILEBUILD_MCP_MACOS_TEMPLATE_VERSION` |
 
 ## Session default bootstrap
 
 | Session default | Environment variable |
 |----------------|---------------------|
-| `workspacePath` | `XCODEBUILDMCP_WORKSPACE_PATH` |
-| `projectPath` | `XCODEBUILDMCP_PROJECT_PATH` |
-| `scheme` | `XCODEBUILDMCP_SCHEME` |
-| `configuration` | `XCODEBUILDMCP_CONFIGURATION` |
-| `simulatorName` | `XCODEBUILDMCP_SIMULATOR_NAME` |
-| `simulatorId` | `XCODEBUILDMCP_SIMULATOR_ID` |
-| `simulatorPlatform` | `XCODEBUILDMCP_SIMULATOR_PLATFORM` |
-| `deviceId` | `XCODEBUILDMCP_DEVICE_ID` |
-| `platform` | `XCODEBUILDMCP_PLATFORM` |
-| `useLatestOS` | `XCODEBUILDMCP_USE_LATEST_OS` |
-| `arch` | `XCODEBUILDMCP_ARCH` |
-| `suppressWarnings` | `XCODEBUILDMCP_SUPPRESS_WARNINGS` |
-| `derivedDataPath` | `XCODEBUILDMCP_DERIVED_DATA_PATH` |
-| `preferXcodebuild` | `XCODEBUILDMCP_PREFER_XCODEBUILD` |
-| `bundleId` | `XCODEBUILDMCP_BUNDLE_ID` |
+| `workspacePath` | `MOBILEBUILDMCP_WORKSPACE_PATH` |
+| `projectPath` | `MOBILEBUILDMCP_PROJECT_PATH` |
+| `scheme` | `MOBILEBUILDMCP_SCHEME` |
+| `configuration` | `MOBILEBUILDMCP_CONFIGURATION` |
+| `simulatorName` | `MOBILEBUILDMCP_SIMULATOR_NAME` |
+| `simulatorId` | `MOBILEBUILDMCP_SIMULATOR_ID` |
+| `simulatorPlatform` | `MOBILEBUILDMCP_SIMULATOR_PLATFORM` |
+| `deviceId` | `MOBILEBUILDMCP_DEVICE_ID` |
+| `platform` | `MOBILEBUILDMCP_PLATFORM` |
+| `useLatestOS` | `MOBILEBUILDMCP_USE_LATEST_OS` |
+| `arch` | `MOBILEBUILDMCP_ARCH` |
+| `suppressWarnings` | `MOBILEBUILDMCP_SUPPRESS_WARNINGS` |
+| `derivedDataPath` | `MOBILEBUILDMCP_DERIVED_DATA_PATH` |
+| `preferXcodebuild` | `MOBILEBUILDMCP_PREFER_XCODEBUILD` |
+| `bundleId` | `MOBILEBUILDMCP_BUNDLE_ID` |
 
 ## MCP idle shutdown
 
-`XCODEBUILDMCP_MCP_IDLE_TIMEOUT_MS` is disabled by default (`0`). Set it to a positive number of milliseconds when you want an unused MCP server process to shut down gracefully after that idle period.
+`MOBILEBUILDMCP_MCP_IDLE_TIMEOUT_MS` is disabled by default (`0`). Set it to a positive number of milliseconds when you want an unused MCP server process to shut down gracefully after that idle period.
 
 The server only exits when the timeout has elapsed, no MCP request is in flight, and no registered runtime operation is active.
 
 ## Working directory override
 
-`XCODEBUILDMCP_CWD` overrides the directory XcodeBuildMCP uses to discover `.xcodebuildmcp/config.yaml` and resolve relative paths. Set this when the host that launches XcodeBuildMCP can configure environment variables but not the spawn directory (the most common case is **MCP Inspector**).
+`MOBILEBUILDMCP_CWD` overrides the directory MobileBuildMCP uses to discover `.mobilebuildmcp/config.yaml` and resolve relative paths. Set this when the host that launches MobileBuildMCP can configure environment variables but not the spawn directory (the most common case is **MCP Inspector**).
 
 | Variable | Behavior |
 |----------|----------|
-| `XCODEBUILDMCP_CWD` | Absolute path; supports a leading `~/`. Falls back to the original cwd with a warning if the directory cannot be entered. |
+| `MOBILEBUILDMCP_CWD` | Absolute path; supports a leading `~/`. Falls back to the original cwd with a warning if the directory cannot be entered. |
 
-Example: launch XcodeBuildMCP from anywhere and have it read `~/Projects/MyApp/.xcodebuildmcp/config.yaml`:
+Example: launch MobileBuildMCP from anywhere and have it read `~/Projects/MyApp/.mobilebuildmcp/config.yaml`:
 
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"],
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"],
       "env": {
-        "XCODEBUILDMCP_CWD": "~/Projects/MyApp"
+        "MOBILEBUILDMCP_CWD": "~/Projects/MyApp"
       }
     }
   }
 }
 ```
 
-If you have not set `XCODEBUILDMCP_CWD`, the working directory is whatever the host process spawned XcodeBuildMCP in.
+If you have not set `MOBILEBUILDMCP_CWD`, the working directory is whatever the host process spawned MobileBuildMCP in.
 
 ## Example
 
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "npx",
-      "args": ["-y", "xcodebuildmcp@latest", "mcp"],
+      "args": ["-y", "mobilebuildmcp@latest", "mcp"],
       "env": {
-        "XCODEBUILDMCP_ENABLED_WORKFLOWS": "simulator,debugging,ui-automation",
-        "XCODEBUILDMCP_WORKSPACE_PATH": "/Users/me/MyApp/MyApp.xcworkspace",
-        "XCODEBUILDMCP_SCHEME": "MyApp",
-        "XCODEBUILDMCP_PLATFORM": "iOS Simulator",
-        "XCODEBUILDMCP_SIMULATOR_NAME": "iPhone 17 Pro"
+        "MOBILEBUILDMCP_ENABLED_WORKFLOWS": "simulator,debugging,ui-automation",
+        "MOBILEBUILDMCP_WORKSPACE_PATH": "/Users/me/MyApp/MyApp.xcworkspace",
+        "MOBILEBUILDMCP_SCHEME": "MyApp",
+        "MOBILEBUILDMCP_PLATFORM": "iOS Simulator",
+        "MOBILEBUILDMCP_SIMULATOR_NAME": "iPhone 17 Pro"
       }
     }
   }
@@ -117,7 +117,7 @@ If you have not set `XCODEBUILDMCP_CWD`, the working directory is whatever the h
 
 ## Exporting from setup
 
-`xcodebuildmcp setup --format mcp-json` prints an env-based bootstrap block for your MCP client, based on the choices made in the interactive wizard. This is intended for MCP client bootstrap only, it does not replace `config.yaml` as the canonical project configuration.
+`mobilebuildmcp setup --format mcp-json` prints an env-based bootstrap block for your MCP client, based on the choices made in the interactive wizard. This is intended for MCP client bootstrap only, it does not replace `config.yaml` as the canonical project configuration.
 
 ## Related
 

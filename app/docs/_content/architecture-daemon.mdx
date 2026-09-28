@@ -3,7 +3,7 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Architecture", "Daemon Lifecycle"]}
   title="Daemon Lifecycle"
-  lede="Why XcodeBuildMCP keeps one small background process per workspace for tool work that needs state after the shell command exits, and how that process starts, runs, and shuts down."
+  lede="Why MobileBuildMCP keeps one small background process per workspace for tool work that needs state after the shell command exits, and how that process starts, runs, and shuts down."
 />
 
 Some tool work has to outlive the shell command that started it — an active debug session, an in-progress video capture, an open Xcode bridge. The CLI process exits as soon as the shell command finishes, so that state has nowhere to live. This page is about the per-workspace background process that owns that kind of work, and the lifecycle that decides when it starts, what it owns, and when it shuts down.
@@ -12,7 +12,7 @@ Some tool work has to outlive the shell command that started it — an active de
 
 See the full glossary at [Core terms](/docs/architecture#core-terms).
 
-- **daemon** — The workspace-scoped background process (`xcodebuildmcp daemon`) that owns stateful tool work — debug sessions, video captures, long-running SwiftPM work, the Xcode IDE bridge — across short-lived CLI commands.
+- **daemon** — The workspace-scoped background process (`mobilebuildmcp daemon`) that owns stateful tool work — debug sessions, video captures, long-running SwiftPM work, the Xcode IDE bridge — across short-lived CLI commands.
 - **transport** — The wire a request travels on; for the daemon, that is a Unix socket scoped to the workspace.
 - **tool handler** — The shared function the daemon hosts on behalf of stateful tools; the same function the in-process CLI would have called.
 - **workspace root** — The project root that owns configuration and daemon state, used to derive a stable key for the daemon socket.
@@ -55,7 +55,7 @@ stateDiagram-v2
 
 ## Workspace scoping
 
-Each daemon is scoped to one workspace. XcodeBuildMCP derives the workspace identity from the project config location when `.xcodebuildmcp/config.yaml` exists. Otherwise it uses the current directory. That workspace root becomes a stable key for the daemon socket path.
+Each daemon is scoped to one workspace. MobileBuildMCP derives the workspace identity from the project config location when `.mobilebuildmcp/config.yaml` exists. Otherwise it uses the current directory. That workspace root becomes a stable key for the daemon socket path.
 
 | Concept | Meaning |
 |---------|---------|
@@ -72,7 +72,7 @@ A tool opts into daemon routing through manifest routing metadata. When the CLI 
 The user-facing command does not change:
 
 ```shell
-xcodebuildmcp simulator record-video --simulator-id <UDID> --output-path ./session.mp4
+mobilebuildmcp simulator record-video --simulator-id <UDID> --output-path ./session.mp4
 ```
 
 The routing choice is internal. The shell still sees CLI output in the requested mode.
@@ -88,7 +88,7 @@ That mirrors direct CLI invocation. The difference is process ownership: direct 
 
 ## Idle shutdown
 
-The default idle timeout is 10 minutes. It can be overridden with `XCODEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS`.
+The default idle timeout is 10 minutes. It can be overridden with `MOBILEBUILDMCP_DAEMON_IDLE_TIMEOUT_MS`.
 
 The daemon shuts down only when all of these are true:
 
@@ -105,12 +105,12 @@ This is stricter than just checking for an empty session list. It protects both 
 The CLI exposes daemon commands for inspection and recovery:
 
 ```shell
-xcodebuildmcp daemon status
-xcodebuildmcp daemon start
-xcodebuildmcp daemon stop
-xcodebuildmcp daemon restart
-xcodebuildmcp daemon list
-xcodebuildmcp daemon logs
+mobilebuildmcp daemon status
+mobilebuildmcp daemon start
+mobilebuildmcp daemon stop
+mobilebuildmcp daemon restart
+mobilebuildmcp daemon list
+mobilebuildmcp daemon logs
 ```
 
 Use manual control for debugging. Normal stateful tool calls auto-start the daemon and do not require setup.

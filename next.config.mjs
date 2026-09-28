@@ -15,6 +15,15 @@ const nextConfig = {
     unoptimized: true,
   },
   pageExtensions: ["ts", "tsx", "md", "mdx"],
+  async redirects() {
+    return [
+      {
+        source: "/why-xcodebuildmcp",
+        destination: "/why-mobilebuildmcp",
+        permanent: true,
+      },
+    ]
+  },
 }
 
 const withMDX = createMDX({

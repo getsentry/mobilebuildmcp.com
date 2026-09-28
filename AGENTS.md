@@ -5,18 +5,18 @@
 ## Docs site
 
 ### Audience
-Two audiences share the public facing groups (Overview, Getting Started, Usage, Reference, Guides). Both sit on the public API side of XcodeBuildMCP:
+Two audiences share the public facing groups (Overview, Getting Started, Usage, Reference, Guides). Both sit on the public API side of MobileBuildMCP:
 
-- **End user**: a developer using a coding agent (via their MCP client) or the CLI to build iOS or macOS apps. XcodeBuildMCP extends their agent's capabilities.
+- **End user**: a developer using a coding agent (via their MCP client) or the CLI to build iOS or macOS apps. MobileBuildMCP extends their agent's capabilities.
 - **Agent / MCP client**: the tool integrating with the MCP server.
 
-Public docs cover the public API only: MCP spec features XcodeBuildMCP implements (structured content, resources, notifications, tool annotations, and so on), tools and what they do, MCP resources, configuration, session defaults, env vars, workflow management, CLI and its API, CLI and MCP output formats. Tool annotations (`readOnlyHint`, `destructiveHint`, `openWorldHint`) are part of the public MCP response, so document them in public pages, not Contributing.
+Public docs cover the public API only: MCP spec features MobileBuildMCP implements (structured content, resources, notifications, tool annotations, and so on), tools and what they do, MCP resources, configuration, session defaults, env vars, workflow management, CLI and its API, CLI and MCP output formats. Tool annotations (`readOnlyHint`, `destructiveHint`, `openWorldHint`) are part of the public MCP response, so document them in public pages, not Contributing.
 
-The **Contributing** group is for people modifying XcodeBuildMCP itself. In scope: tool manifest files, tool authoring, internal architecture a contributor needs to add, edit, or remove a tool or workflow (rendering pipeline, tool registration, schemas, testing strategy). Contributors only need internals inside their authoring domain. Other internals do not need a doc home.
+The **Contributing** group is for people modifying MobileBuildMCP itself. In scope: tool manifest files, tool authoring, internal architecture a contributor needs to add, edit, or remove a tool or workflow (rendering pipeline, tool registration, schemas, testing strategy). Contributors only need internals inside their authoring domain. Other internals do not need a doc home.
 
 Placement rules when writing or moving content:
 
-- An end user or MCP client needs it to use XcodeBuildMCP: public group.
+- An end user or MCP client needs it to use MobileBuildMCP: public group.
 - Only a contributor adding, editing, or removing a tool, workflow, or manifest needs it: Contributing.
 - Neither: delete, do not invent a home for it.
 - Frame public docs by user visible outcome, not implementation. Never leak source code literals (for example `{ sentry: true }` in server code, internal type names, private function names) into public pages.
@@ -46,7 +46,7 @@ Content lives at `app/docs/_content/<slug>.mdx`. To add a new page, also update:
 
 ### Dynamic data
 
-- Prefer `<LiveToolCount />` etc. over hardcoding counts, workflow names, or versions. These pull from the latest release of `getsentry/XcodeBuildMCP` with a 1-hour revalidation window.
+- Prefer `<LiveToolCount />` etc. over hardcoding counts, workflow names, or versions. These pull from the latest release of `getsentry/MobileBuildMCP` with a 1-hour revalidation window.
 - Refresh the bundled fallback snapshot with `pnpm run docs:sync` when you need up-to-the-minute data during local development.
 
 ### Routing
@@ -58,4 +58,4 @@ Content lives at `app/docs/_content/<slug>.mdx`. To add a new page, also update:
 
 - `pnpm dev`: local dev server
 - `pnpm build`: production build (static-generates every docs route)
-- `pnpm run docs:sync`: refresh the bundled XcodeBuildMCP manifest snapshot
+- `pnpm run docs:sync`: refresh the bundled MobileBuildMCP manifest snapshot

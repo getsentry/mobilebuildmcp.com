@@ -6,7 +6,7 @@ import { PageHeader } from "../_components/page-header"
   lede="How a request reaches the same Xcode tool whether it arrives through an MCP client, a shell command, or a CLI command that hands work off to the workspace daemon."
 />
 
-A request to do Xcode work can arrive through three different front doors: the MCP server an agent connects to, the `xcodebuildmcp` command run directly in a shell, or that same CLI command quietly handing itself off to a long-running workspace process for stateful work. The three concrete entry points are the MCP stdio server (`xcodebuildmcp mcp`), the in-process CLI (`xcodebuildmcp <workflow> <tool>` running directly in the shell), and the same CLI command routed over a Unix socket to the per-workspace daemon. This page is about those front doors and how each one lines a request up to call the same shared tool function.
+A request to do Xcode work can arrive through three different front doors: the MCP server an agent connects to, the `mobilebuildmcp` command run directly in a shell, or that same CLI command quietly handing itself off to a long-running workspace process for stateful work. The three concrete entry points are the MCP stdio server (`mobilebuildmcp mcp`), the in-process CLI (`mobilebuildmcp <workflow> <tool>` running directly in the shell), and the same CLI command routed over a Unix socket to the per-workspace daemon. This page is about those front doors and how each one lines a request up to call the same shared tool function.
 
 ## Terms used here
 
@@ -20,7 +20,7 @@ See the full glossary at [Core terms](/docs/architecture#core-terms).
 
 ## Why runtime boundaries exist
 
-XcodeBuildMCP has two public entry points, MCP and CLI, because agents and shells have different constraints. The CLI then splits into in-process and daemon-routed execution for stateful work, so contributors maintain three runtime boundary surfaces inside those two public surfaces.
+MobileBuildMCP has two public entry points, MCP and CLI, because agents and shells have different constraints. The CLI then splits into in-process and daemon-routed execution for stateful work, so contributors maintain three runtime boundary surfaces inside those two public surfaces.
 
 MCP mode optimizes for agent context. It should advertise a small, relevant tool catalog, return MCP-native content, and attach structured results when available. CLI mode optimizes for discovery, scripting, and human debugging. It should expose top-level commands, workflow command groups, output modes, and daemon-backed state for long-running work.
 
@@ -30,9 +30,9 @@ Both boundaries call the same tool handlers.
 
 | Boundary | Entry shape | Primary contract |
 |----------|-------------|------------------|
-| MCP | `xcodebuildmcp mcp` | Register MCP tools and resources, render text content, attach `structuredContent` when the tool produced structured output. |
+| MCP | `mobilebuildmcp mcp` | Register MCP tools and resources, render text content, attach `structuredContent` when the tool produced structured output. |
 | CLI top-level commands | `init`, `setup`, `upgrade`, `tools`, `daemon` | Provide setup, discovery, daemon control, and server startup commands outside the workflow tool tree. |
-| CLI tool commands | `xcodebuildmcp <workflow> <tool> [flags]` | Parse flags or JSON input, invoke a catalog tool, and choose a CLI output mode. |
+| CLI tool commands | `mobilebuildmcp <workflow> <tool> [flags]` | Parse flags or JSON input, invoke a catalog tool, and choose a CLI output mode. |
 | Daemon-routed CLI | Same CLI tool command shape | Preserve state across short-lived CLI processes for tools that declare stateful routing. |
 
 For user-facing syntax, see [CLI](/docs/cli) and [MCP Server Mode](/docs/mcp-mode).
@@ -72,7 +72,7 @@ The MCP boundary is also where workflow selection matters most. Keeping the adve
 
 ## CLI boundary
 
-The CLI builds a yargs command tree from the same manifest-backed catalog. Non-tool commands are registered as top-level commands. Tool commands are grouped by workflow so `xcodebuildmcp simulator build` and `xcodebuildmcp device install` stay discoverable in shells and scripts.
+The CLI builds a yargs command tree from the same manifest-backed catalog. Non-tool commands are registered as top-level commands. Tool commands are grouped by workflow so `mobilebuildmcp simulator build` and `mobilebuildmcp device install` stay discoverable in shells and scripts.
 
 CLI invocation has one extra decision that MCP mode does not need: whether the tool can run in the current process or needs daemon transport.
 
@@ -88,7 +88,7 @@ sequenceDiagram
     participant DaemonClient as DaemonClient
     participant Daemon as Per-workspace daemon
 
-    User->>CLI: xcodebuildmcp <workflow> <tool> [flags]
+    User->>CLI: mobilebuildmcp <workflow> <tool> [flags]
     CLI->>Commands: parse flags, --json, --output, --profile
     Commands->>Session: createRenderSession(strategy)
     Commands->>Invoker: invokeDirect(tool, args, InvokeOptions)

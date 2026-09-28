@@ -8,7 +8,7 @@ Source: `/Volumes/Developer/xcodebuildmcp.com/app/docs/_content/`. Sidebar group
 
 The non-Contributing surface is overwhelmingly end-user oriented and in good shape. Three pages leak developer-facing content into the user surface and deserve the most attention:
 
-1. `output-formats.mdx` has an "Environment signal for tool authors" section (`XCODEBUILDMCP_CLI_OUTPUT_FORMAT`) that explicitly addresses tool authors, and a "Response schema reference" block that exposes an internal TypeScript type.
+1. `output-formats.mdx` has an "Environment signal for tool authors" section (`MOBILEBUILDMCP_CLI_OUTPUT_FORMAT`) that explicitly addresses tool authors, and a "Response schema reference" block that exposes an internal TypeScript type.
 2. `mcp-mode.mdx` ends with a "Tool annotations" section that teaches users the MCP protocol-spec annotation keys (`readOnlyHint`, `destructiveHint`, `openWorldHint`) instead of the user-visible outcome (fewer confirmation prompts).
 3. `xcode-ide.mdx` has a one-liner about internal `xcode_tools_*` CLI proxy naming that is confusing as written and should be rewritten.
 
@@ -22,7 +22,7 @@ No new Contributing pages are needed. Every flagged passage has a natural home i
 
 #### `introduction.mdx` &mdash; GREEN
 
-Marketing landing page. Feature grid, two-modes block, Why XcodeBuildMCP list, Sentry callout. All outcome-oriented. No action.
+Marketing landing page. Feature grid, two-modes block, Why MobileBuildMCP list, Sentry callout. All outcome-oriented. No action.
 
 ### Getting Started group
 
@@ -46,7 +46,7 @@ Synopsis, top-level commands, argument forms, session-defaults auto-fill, recipe
 
 Minor rewrite candidate, not a move:
 
-- Lines 122 to 136 "Per-workspace daemon" describes user-visible daemon behavior but the phrasing leans implementation-oriented ("Workspace identity: derived from the location of `.xcodebuildmcp/config.yaml`, or falls back to the current directory. Socket: each daemon runs on a Unix socket at ..."). This is legitimately user-visible (socket path matters when chmod fixes appear in troubleshooting), so **keep** but consider outcome-first framing: lead with "the first stateful tool call auto-starts a per-workspace daemon that shuts down after 10 minutes idle", then put socket path and workspace key as reference bullets below.
+- Lines 122 to 136 "Per-workspace daemon" describes user-visible daemon behavior but the phrasing leans implementation-oriented ("Workspace identity: derived from the location of `.mobilebuildmcp/config.yaml`, or falls back to the current directory. Socket: each daemon runs on a Unix socket at ..."). This is legitimately user-visible (socket path matters when chmod fixes appear in troubleshooting), so **keep** but consider outcome-first framing: lead with "the first stateful tool call auto-starts a per-workspace daemon that shuts down after 10 minutes idle", then put socket path and workspace key as reference bullets below.
 
 No hard findings. Proposal: **keep as-is**; gentle rewrite is optional.
 
@@ -66,7 +66,7 @@ Finding 1 (hard): Lines 128 to 136, section "## Tool annotations":
 
 This is pure MCP-protocol-spec vocabulary. End users don't set these keys; they observe their effect. The raw key names only matter to someone inspecting tool metadata or writing a new tool (which belongs in `tool-authoring.mdx` &mdash; note that page already references `annotations` at lines 124 to 141).
 
-Proposal: **rewrite in user voice**. Replace the table with one sentence of user outcome, e.g. "Every XcodeBuildMCP tool flags itself as read-only, destructive, or network-touching. MCP clients that respect those hints (Codex, recent Claude Code) skip confirmation prompts for read-only tools and prompt on destructive ones." Drop the `readOnlyHint`/`destructiveHint`/`openWorldHint` table. The keys are already documented for tool authors inside `tool-authoring.mdx` at lines 124 to 141.
+Proposal: **rewrite in user voice**. Replace the table with one sentence of user outcome, e.g. "Every MobileBuildMCP tool flags itself as read-only, destructive, or network-touching. MCP clients that respect those hints (Codex, recent Claude Code) skip confirmation prompts for read-only tools and prompt on destructive ones." Drop the `readOnlyHint`/`destructiveHint`/`openWorldHint` table. The keys are already documented for tool authors inside `tool-authoring.mdx` at lines 124 to 141.
 
 #### `workflows.mdx` &mdash; GREEN
 
@@ -96,17 +96,17 @@ Finding 1 (hard): Lines 187 to 199, section "## Response schema reference":
 > }
 > ```
 
-The table at lines 59 to 65 already describes these five fields in user-friendly prose. Repeating them as an internal TypeScript interface, framed with "as exported from the source TypeScript types", pulls the reader into XcodeBuildMCP's source instead of their own client/CLI consumption model. It duplicates the fields table and then editorializes about internal exports.
+The table at lines 59 to 65 already describes these five fields in user-friendly prose. Repeating them as an internal TypeScript interface, framed with "as exported from the source TypeScript types", pulls the reader into MobileBuildMCP's source instead of their own client/CLI consumption model. It duplicates the fields table and then editorializes about internal exports.
 
 Proposal: **rewrite in user voice**. Drop the TypeScript interface. Keep the two schema-file links (lines 201 to 204). Suggested replacement:
 
-> The same envelope fields are published as canonical JSON schemas under [`schemas/structured-output/`](https://github.com/getsentry/XcodeBuildMCP/tree/main/schemas/structured-output). Concrete examples:
+> The same envelope fields are published as canonical JSON schemas under [`schemas/structured-output/`](https://github.com/getsentry/MobileBuildMCP/tree/main/schemas/structured-output). Concrete examples:
 
 (i.e. just remove lines 189 to 199 and keep the rest.)
 
 Finding 2 (hard): Lines 329 to 332, section "## Environment signal for tool authors":
 
-> The CLI stores the selected mode in `XCODEBUILDMCP_CLI_OUTPUT_FORMAT` while a tool invocation runs. Treat `--output` as the user-facing interface. The env var is useful when internal code needs to know whether the current CLI invocation selected `text`, `json`, `jsonl`, or `raw`.
+> The CLI stores the selected mode in `MOBILEBUILDMCP_CLI_OUTPUT_FORMAT` while a tool invocation runs. Treat `--output` as the user-facing interface. The env var is useful when internal code needs to know whether the current CLI invocation selected `text`, `json`, `jsonl`, or `raw`.
 
 This is explicitly titled for tool authors and says "internal code needs to know". It has no business on the public user-facing output-formats page.
 
@@ -202,17 +202,17 @@ Ordered by priority. "Find" column is line ranges to aid a follow-up agent.
 | P3 | `privacy.mdx` | 15 | Rewrite in user voice | Replace `` `{ sentry: true }` in server code `` with "when the server explicitly tags an event for Sentry." |
 | P4 | `cli.mdx` | 122 to 136 | Optional rewrite | Lead with outcome ("first stateful call auto-starts a per-workspace daemon; it shuts down after 10 minutes idle"), demote socket path / workspace identity to reference bullets below. No move. |
 
-No page-level moves into Contributing are warranted. Every finding can be resolved by trimming a paragraph, rewriting a sentence, or moving a single four-line passage (the `XCODEBUILDMCP_CLI_OUTPUT_FORMAT` one).
+No page-level moves into Contributing are warranted. Every finding can be resolved by trimming a paragraph, rewriting a sentence, or moving a single four-line passage (the `MOBILEBUILDMCP_CLI_OUTPUT_FORMAT` one).
 
 ## Open questions for reviewer
 
 1. **Tool annotations visibility.** `mcp-mode.mdx` currently teaches the raw annotation keys. End users can observe the effect (no confirmation prompt), but power users occasionally want to audit which tools claim `destructiveHint` before handing the keys to their agent. Options:
    - (A) Drop the keys entirely (current proposal).
-   - (B) Keep the keys but reframe as "what XcodeBuildMCP advertises to your client" rather than "annotations declared per tool".
+   - (B) Keep the keys but reframe as "what MobileBuildMCP advertises to your client" rather than "annotations declared per tool".
    - (C) Move the table to `tools.mdx` as a filter in the live `<ToolExplorer />` (this is a real user workflow but would be a feature, not a doc edit).
    Recommend (A) for now; revisit if (C) is ever shipped.
 
-2. **`XCODEBUILDMCP_CLI_OUTPUT_FORMAT` destination.** The env-var note is legitimately useful for tool authors but it's also a runtime-layer concern. Move to `tool-authoring.mdx` (closer to the audience) or `architecture.mdx` (closer to the mechanism)? My default is `tool-authoring.mdx`, appended near the bottom of "Streaming example" or in a new one-line "Runtime env signals" bullet, because that is where someone first encounters CLI output format in their own code. Confirm before moving.
+2. **`MOBILEBUILDMCP_CLI_OUTPUT_FORMAT` destination.** The env-var note is legitimately useful for tool authors but it's also a runtime-layer concern. Move to `tool-authoring.mdx` (closer to the audience) or `architecture.mdx` (closer to the mechanism)? My default is `tool-authoring.mdx`, appended near the bottom of "Streaming example" or in a new one-line "Runtime env signals" bullet, because that is where someone first encounters CLI output format in their own code. Confirm before moving.
 
 3. **Session defaults internal state.** Audit prompt specifically asks whether `session-defaults.mdx` "explains the internal profile store". It does not; the whole page is user-observable behavior and YAML schema. No change. Flagging in case the prompt intended a different target.
 
@@ -226,16 +226,16 @@ The audit's findings are being actioned. Decisions recorded here so sub-agents w
 
 ### Reframing: tool annotations are public API, not internal
 
-`readOnlyHint`, `destructiveHint`, `openWorldHint` are part of the public MCP response XcodeBuildMCP advertises. They **stay** in end-user-visible docs. The original P0 recommendation to drop them is reversed. Full treatment moves to a new **`mcp-protocol-support.mdx`** page under the Reference group; `mcp-mode.mdx` keeps a short outcome-focused section that links to the new page.
+`readOnlyHint`, `destructiveHint`, `openWorldHint` are part of the public MCP response MobileBuildMCP advertises. They **stay** in end-user-visible docs. The original P0 recommendation to drop them is reversed. Full treatment moves to a new **`mcp-protocol-support.mdx`** page under the Reference group; `mcp-mode.mdx` keeps a short outcome-focused section that links to the new page.
 
 Per-tool annotation **pills** in `<ToolExplorer />` (badge beside each tool in the catalog) are a good future feature but **out of scope** for this pass — requires a component change in `_components/tool-explorer.tsx` and a data change in the generated manifest JSON.
 
 ### Open questions — resolved
 
 - **Q1 (tool annotation visibility)** — keep as public API. New page.
-- **Q2 (`XCODEBUILDMCP_CLI_OUTPUT_FORMAT` destination)** — **Option C: delete entirely**. It is an internal mechanism; no reason for end users or tool authors to know about it moving forward. Not moved to `tool-authoring.mdx` or `architecture.mdx` — removed.
+- **Q2 (`MOBILEBUILDMCP_CLI_OUTPUT_FORMAT` destination)** — **Option C: delete entirely**. It is an internal mechanism; no reason for end users or tool authors to know about it moving forward. Not moved to `tool-authoring.mdx` or `architecture.mdx` — removed.
 - **Q3 (session-defaults internal state)** — confirmed no leak. No action.
-- **Q4 (`cli.mdx` daemon lede)** — **rewrite**. Do not assume users know what a daemon is. Open with the user-facing concept: "some tools rely on long-running background processes". Then introduce that XcodeBuildMCP calls this a daemon, cover lifecycle, workspace scoping (tied to `.xcodebuildmcp/config.yaml`), and available management commands. `.xcodebuildmcp/config.yaml` is part of the public feature — treat it as such.
+- **Q4 (`cli.mdx` daemon lede)** — **rewrite**. Do not assume users know what a daemon is. Open with the user-facing concept: "some tools rely on long-running background processes". Then introduce that MobileBuildMCP calls this a daemon, cover lifecycle, workspace scoping (tied to `.mobilebuildmcp/config.yaml`), and available management commands. `.mobilebuildmcp/config.yaml` is part of the public feature — treat it as such.
 - **Q5 (cross-link label on `output-formats.mdx`)** — **keep as-is**. The qualifier "contributor-level rendering model" is a useful boundary signal.
 
 ### Sidebar placement
@@ -243,7 +243,7 @@ Per-tool annotation **pills** in `<ToolExplorer />` (badge beside each tool in t
 New page slug: `mcp-protocol-support`. Sidebar group: **Reference**. Suggested position: after `tools` and before `output-formats` (so the user flow is "what tools exist → which MCP features do they flow through → what does the output look like"). Update `/Volumes/Developer/xcodebuildmcp.com/app/docs/_data/routes.ts`:
 - Add `"mcp-protocol-support"` to `DocSlug` union
 - Add `"mcp-protocol-support"` to `PAGES_ORDER` in the chosen position
-- Add a `PAGE_META` entry (title "MCP Protocol Support", group "Reference", description calling out that the page declares which MCP spec features XcodeBuildMCP implements)
+- Add a `PAGE_META` entry (title "MCP Protocol Support", group "Reference", description calling out that the page declares which MCP spec features MobileBuildMCP implements)
 - Add `{ slug: "mcp-protocol-support" }` to the Reference `SidebarGroup.items`
 
 ### Execution plan (three parallel work items)
@@ -256,31 +256,31 @@ New page slug: `mcp-protocol-support`. Sidebar group: **Reference**. Suggested p
   - No other changes to these files.
 
 - [x] **Item 2 — `cli.mdx` daemon section rewrite (lines 122–136)** (done)
-  - Open with the user-facing concept before naming the daemon. Suggested lede: "Some XcodeBuildMCP tools (log capture, debugging, long-running builds, test runs) need a background process to keep state across commands. The first time you use one of these, XcodeBuildMCP auto-starts a small scoped background process — a daemon — that survives between CLI invocations."
-  - Then explain lifecycle (shuts down after 10 min idle), workspace scoping (keyed off `.xcodebuildmcp/config.yaml`, or the current directory when absent), and the user-visible management commands (`daemon start`, `daemon status`, `daemon stop`, plus whatever else exists — the agent should verify by reading the current CLI surface).
+  - Open with the user-facing concept before naming the daemon. Suggested lede: "Some MobileBuildMCP tools (log capture, debugging, long-running builds, test runs) need a background process to keep state across commands. The first time you use one of these, MobileBuildMCP auto-starts a small scoped background process — a daemon — that survives between CLI invocations."
+  - Then explain lifecycle (shuts down after 10 min idle), workspace scoping (keyed off `.mobilebuildmcp/config.yaml`, or the current directory when absent), and the user-visible management commands (`daemon start`, `daemon status`, `daemon stop`, plus whatever else exists — the agent should verify by reading the current CLI surface).
   - Socket path stays but becomes reference detail under a "Reference" heading, not the opening sentence.
   - Result: a user who has never heard the word "daemon" can understand why this exists and what to do about it, without reading implementation-first phrasing.
 
 - [x] **Item 3 — new `mcp-protocol-support.mdx` page + `mcp-mode.mdx` trim + `routes.ts` registration** (done)
   - Create `/Volumes/Developer/xcodebuildmcp.com/app/docs/_content/mcp-protocol-support.mdx`.
-  - Investigate the actual XcodeBuildMCP MCP server surface before writing. Do **not** fabricate feature claims. Starting points:
-    - `/Volumes/Developer/XcodeBuildMCP/src/server/` — server entry + capability declarations
-    - `/Volumes/Developer/XcodeBuildMCP/src/mcp/` — MCP-facing adapters, tools, resources
-    - `/Volumes/Developer/XcodeBuildMCP/src/core/manifest/` — manifest layer that annotations flow through
-    - `/Volumes/Developer/XcodeBuildMCP/schemas/structured-output/` — structured content envelope schemas
+  - Investigate the actual MobileBuildMCP MCP server surface before writing. Do **not** fabricate feature claims. Starting points:
+    - `/Volumes/Developer/MobileBuildMCP/src/server/` — server entry + capability declarations
+    - `/Volumes/Developer/MobileBuildMCP/src/mcp/` — MCP-facing adapters, tools, resources
+    - `/Volumes/Developer/MobileBuildMCP/src/core/manifest/` — manifest layer that annotations flow through
+    - `/Volumes/Developer/MobileBuildMCP/schemas/structured-output/` — structured content envelope schemas
   - Page content, minimum coverage (expand if more is actually implemented):
-    - Short intro: the MCP protocol has many optional features; this page declares which ones XcodeBuildMCP implements (so MCP-literate readers can evaluate coverage).
+    - Short intro: the MCP protocol has many optional features; this page declares which ones MobileBuildMCP implements (so MCP-literate readers can evaluate coverage).
     - Feature table or sections for: tools (list + call), tool annotations (full `readOnlyHint`/`destructiveHint`/`openWorldHint`/`idempotentHint`/`openWorldHint` as actually declared, with user-outcome framing), structured content (the envelope + schemas we publish), resources (if any), notifications (tool-list changes, progress if emitted, logs if forwarded), prompts (honest "not implemented" if that's the state), server capabilities advertised on initialize.
     - Cross-links: to `tools` (catalog), `output-formats` (envelope details), `mcp-mode` (how to run the server).
     - Keep tone direct, no emoji, technical prose.
-  - Trim `mcp-mode.mdx` tool annotations section (lines 128–136) to a short outcome-focused paragraph plus a link to the new page. Suggested content: one sentence covering "every tool declares read-only / destructive / open-world hints so compliant clients can reduce confirmation prompts", then "See [MCP Protocol Support](/docs/mcp-protocol-support) for the full list of MCP features XcodeBuildMCP implements." Drop the raw annotation-keys table — the full table lives on the new page.
+  - Trim `mcp-mode.mdx` tool annotations section (lines 128–136) to a short outcome-focused paragraph plus a link to the new page. Suggested content: one sentence covering "every tool declares read-only / destructive / open-world hints so compliant clients can reduce confirmation prompts", then "See [MCP Protocol Support](/docs/mcp-protocol-support) for the full list of MCP features MobileBuildMCP implements." Drop the raw annotation-keys table — the full table lives on the new page.
   - Update `routes.ts` as described under "Sidebar placement" above.
   - Check the file `/Volumes/Developer/xcodebuildmcp.com/app/docs/_content/index.ts` for any registration the new slug needs.
 
 ### Cross-cutting notes for all three items
 
-- Do not touch legacy `/Volumes/Developer/XcodeBuildMCP/docs/*.md` files. They are being replaced by the docs site.
-- Audience framing is captured in `/Volumes/Developer/XcodeBuildMCP/CLAUDE.md` and `AGENTS.md` under `## Docs > ### Audience`. Read it before writing new prose.
+- Do not touch legacy `/Volumes/Developer/MobileBuildMCP/docs/*.md` files. They are being replaced by the docs site.
+- Audience framing is captured in `/Volumes/Developer/MobileBuildMCP/CLAUDE.md` and `AGENTS.md` under `## Docs > ### Audience`. Read it before writing new prose.
 - All three items run in parallel in separate agents. File ownership does not overlap.
 
 ## Scope checks honored
@@ -289,5 +289,5 @@ New page slug: `mcp-protocol-support`. Sidebar group: **Reference**. Suggested p
 - Contributing pages (`contributing.mdx`, `architecture.mdx`, `tool-authoring.mdx`, `testing.mdx`) were read only to confirm they are the right landing zones for flagged content. Their own content is out of scope.
 - No sidebar restructuring is proposed beyond relocations into existing Contributing pages.
 - No new pages are proposed; if one is needed in future, see open question 2.
-- Legacy `/Volumes/Developer/XcodeBuildMCP/docs/` markdown files were not examined.
+- Legacy `/Volumes/Developer/MobileBuildMCP/docs/` markdown files were not examined.
 - No `.mdx` files were modified.

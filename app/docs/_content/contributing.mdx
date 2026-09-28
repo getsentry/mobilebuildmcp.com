@@ -4,16 +4,16 @@ import { PageHeader } from "../_components/page-header"
 <PageHeader
   breadcrumbs={["Docs", "Contributing", "Contributing"]}
   title="Contributing"
-  lede="How to set up, build, and submit changes to XcodeBuildMCP."
+  lede="How to set up, build, and submit changes to MobileBuildMCP."
 />
 
-XcodeBuildMCP lives at [getsentry/XcodeBuildMCP](https://github.com/getsentry/XcodeBuildMCP). Use the issue tracker for bugs, proposals, and larger changes that need design discussion before code.
+MobileBuildMCP lives at [getsentry/MobileBuildMCP](https://github.com/getsentry/MobileBuildMCP). Use the issue tracker for bugs, proposals, and larger changes that need design discussion before code.
 
 ## Prerequisites
 
 | Requirement | Notes |
 |-------------|-------|
-| macOS | XcodeBuildMCP shells out to Apple developer tools, so development is macOS-only. |
+| macOS | MobileBuildMCP shells out to Apple developer tools, so development is macOS-only. |
 | Xcode | Install Xcode and make sure Command Line Tools point at the Xcode you use for testing. |
 | Node.js 18+ | The package targets Node 18 and later. |
 | npm | Used for install, build, test, and local scripts. |
@@ -28,8 +28,8 @@ If you prefer a system-wide install on `PATH`, `brew tap cameroncooke/axe && bre
 ## Clone, install, build
 
 ```shell
-git clone https://github.com/getsentry/XcodeBuildMCP.git
-cd XcodeBuildMCP
+git clone https://github.com/getsentry/MobileBuildMCP.git
+cd MobileBuildMCP
 npm install
 npm run hooks:install
 npm run build
@@ -50,11 +50,11 @@ Use the built `cli.js` directly while developing. Replace the path with your che
 ```json
 {
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "node",
-      "args": ["/path/to/XcodeBuildMCP/build/cli.js", "mcp"],
+      "args": ["/path/to/MobileBuildMCP/build/cli.js", "mcp"],
       "env": {
-        "XCODEBUILDMCP_DEBUG": "true"
+        "MOBILEBUILDMCP_DEBUG": "true"
       }
     }
   }
@@ -63,7 +63,7 @@ Use the built `cli.js` directly while developing. Replace the path with your che
 
 ## Iterating
 
-Most XcodeBuildMCP code is shared between the CLI and MCP server: the tools themselves, the manifests that describe them, the runtime layer that receives a request, and the rendering layer that turns its output into text or JSON. That means most tool behavior is testable through the CLI without an MCP client in the loop:
+Most MobileBuildMCP code is shared between the CLI and MCP server: the tools themselves, the manifests that describe them, the runtime layer that receives a request, and the rendering layer that turns its output into text or JSON. That means most tool behavior is testable through the CLI without an MCP client in the loop:
 
 ```shell
 node build/cli.js simulator list
@@ -89,7 +89,7 @@ When an MCP client launches the server, it spawns the server as a long-lived sub
   { label: "Inspector CLI", content: (
     <>
       <p>The Inspector also runs non-interactively. Each invocation spawns a fresh server subprocess, so there is no long-lived process to manage and no plumbing into your real client. The inspector CLI acts as a transient MCP client per call.</p>
-      <p>Best for AI agents contributing to XcodeBuildMCP that want to verify MCP integration after each rebuild.</p>
+      <p>Best for AI agents contributing to MobileBuildMCP that want to verify MCP integration after each rebuild.</p>
       <CodeBlock lang="shell" plain={`npx @modelcontextprotocol/inspector@latest --cli node build/cli.js mcp \\
   --method tools/list
 
@@ -118,19 +118,19 @@ npx @modelcontextprotocol/inspector@latest --cli node build/cli.js mcp \\
       </CodeBlock>
       <CodeBlock lang="json" plain={`{
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "reloaderoo",
-      "args": ["--", "node", "/path/to/XcodeBuildMCP/build/cli.js", "mcp"],
-      "env": { "XCODEBUILDMCP_DEBUG": "true" }
+      "args": ["--", "node", "/path/to/MobileBuildMCP/build/cli.js", "mcp"],
+      "env": { "MOBILEBUILDMCP_DEBUG": "true" }
     }
   }
 }`}>
 {`{
   "mcpServers": {
-    "XcodeBuildMCP": {
+    "MobileBuildMCP": {
       "command": "reloaderoo",
-      "args": ["--", "node", "/path/to/XcodeBuildMCP/build/cli.js", "mcp"],
-      "env": { "XCODEBUILDMCP_DEBUG": "true" }
+      "args": ["--", "node", "/path/to/MobileBuildMCP/build/cli.js", "mcp"],
+      "env": { "MOBILEBUILDMCP_DEBUG": "true" }
     }
   }
 }`}
@@ -213,23 +213,23 @@ The scaffolding tools pull iOS and macOS templates from separate repositories:
 Use local template overrides when developing template changes:
 
 ```shell
-export XCODEBUILDMCP_IOS_TEMPLATE_PATH=/path/to/XcodeBuildMCP-iOS-Template
-export XCODEBUILDMCP_MACOS_TEMPLATE_PATH=/path/to/XcodeBuildMCP-macOS-Template
+export MOBILEBUILDMCP_IOS_TEMPLATE_PATH=/path/to/XcodeBuildMCP-iOS-Template
+export MOBILEBUILDMCP_MACOS_TEMPLATE_PATH=/path/to/XcodeBuildMCP-macOS-Template
 ```
 
 Optional version overrides:
 
 | Env var | Scope |
 |---------|-------|
-| `XCODEBUILD_MCP_TEMPLATE_VERSION` | Shared fallback for both templates. |
-| `XCODEBUILD_MCP_IOS_TEMPLATE_VERSION` | iOS template only. |
-| `XCODEBUILD_MCP_MACOS_TEMPLATE_VERSION` | macOS template only. |
+| `MOBILEBUILD_MCP_TEMPLATE_VERSION` | Shared fallback for both templates. |
+| `MOBILEBUILD_MCP_IOS_TEMPLATE_VERSION` | iOS template only. |
+| `MOBILEBUILD_MCP_MACOS_TEMPLATE_VERSION` | macOS template only. |
 
-When testing through an MCP client, put the same env vars in that client&apos;s `mcpServers.XcodeBuildMCP.env` block.
+When testing through an MCP client, put the same env vars in that client&apos;s `mcpServers.MobileBuildMCP.env` block.
 
 ## Related
 
 - [Architecture](/docs/architecture), how the runtime, manifests, and rendering model fit together
 - [Tool Authoring](/docs/tool-authoring), adding or changing tools end to end
 - [Testing](/docs/testing), test structure and snapshot rules
-- [GitHub repo](https://github.com/getsentry/XcodeBuildMCP), source, issues, and pull requests
+- [GitHub repo](https://github.com/getsentry/MobileBuildMCP), source, issues, and pull requests
