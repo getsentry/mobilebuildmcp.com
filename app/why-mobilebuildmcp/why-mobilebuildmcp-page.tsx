@@ -99,7 +99,7 @@ export function WhyMobileBuildMCPPage() {
                 href="/#xcode-integration"
                 className="text-sm text-sentry-text-secondary transition-colors hover:text-white"
               >
-                Xcode Integration
+                Integration
               </Link>
               <Link
                 href="/why-mobilebuildmcp"
@@ -166,7 +166,7 @@ export function WhyMobileBuildMCPPage() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-sentry-text-secondary transition-colors hover:text-white"
                 >
-                  Xcode Integration
+                  Integration
                 </Link>
                 <Link
                   href="/why-mobilebuildmcp"
@@ -399,13 +399,13 @@ export function WhyMobileBuildMCPPage() {
                 Sentry
               </Link>
               <Link
-                href="https://x.com/xcodebuildmcp"
+                href="https://x.com/getsentry"
                 className="flex items-center gap-1.5 text-sm text-sentry-text-muted transition-colors hover:text-white"
               >
                 <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-                @xcodebuildmcp
+                @getsentry
               </Link>
               <Link
                 href="https://github.com/getsentry/MobileBuildMCP"
@@ -415,6 +415,15 @@ export function WhyMobileBuildMCPPage() {
                 GitHub
               </Link>
             </div>
+          </div>
+
+          <div className="mt-8 border-t border-sentry-dark-600/30 pt-6">
+            <p className="text-center text-sm leading-6 text-sentry-text-secondary">
+              Not an Apple product. Xcode, iOS, macOS, and Apple are trademarks of Apple Inc.,
+              registered in the U.S. and other countries. MobileBuildMCP is an independent,
+              open source project by Sentry and is not affiliated with, endorsed by, or
+              sponsored by Apple Inc.
+            </p>
           </div>
         </div>
       </footer>
