@@ -30,6 +30,12 @@ interface GitHubStats {
   forks: number
 }
 
+const NAV_LINKS = [
+  { label: "Features", href: "#features" },
+  { label: "See it in Action", href: "#see-it-in-action" },
+  { label: "Integration", href: "#xcode-integration" },
+]
+
 export default function MobileBuildMCPLanding() {
   const [githubStats, setGithubStats] = useState<GitHubStats>({ stars: 1900, forks: 77 })
   const [npmVersion, setNpmVersion] = useState("")
@@ -107,13 +113,13 @@ export default function MobileBuildMCPLanding() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
-              {["Features", "See it in Action", "Xcode Integration"].map((item) => (
+              {NAV_LINKS.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                  key={item.href}
+                  href={item.href}
                   className="text-sm text-sentry-text-secondary hover:text-white transition-colors"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
               <Link
@@ -156,14 +162,14 @@ export default function MobileBuildMCPLanding() {
           {isMobileMenuOpen && (
             <div className="md:hidden pb-6 border-t border-sentry-dark-600/50 pt-4">
               <nav className="flex flex-col gap-4">
-                {["Features", "See it in Action", "Xcode Integration"].map((item) => (
+                {NAV_LINKS.map((item) => (
                   <a
-                    key={item}
-                    href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
+                    key={item.href}
+                    href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="text-sentry-text-secondary hover:text-white transition-colors"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 ))}
                 <Link
@@ -203,7 +209,7 @@ export default function MobileBuildMCPLanding() {
             AI-powered
             <br />
             <span className="bg-gradient-to-r from-sentry-purple via-sentry-purple-light to-sentry-pink bg-clip-text text-transparent">
-              Xcode automation
+              mobile automation
             </span>
           </h1>
 
@@ -820,13 +826,13 @@ sessionDefaults:
                 Sentry
               </Link>
               <Link
-                href="https://x.com/xcodebuildmcp"
+                href="https://x.com/getsentry"
                 className="text-sm text-sentry-text-muted hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-                @xcodebuildmcp
+                @getsentry
               </Link>
               <Link
                 href="https://github.com/getsentry/MobileBuildMCP"
@@ -836,6 +842,15 @@ sessionDefaults:
                 GitHub
               </Link>
             </div>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-sentry-dark-600/30">
+            <p className="text-sm leading-6 text-sentry-text-secondary text-center">
+              Not an Apple product. Xcode, iOS, macOS, and Apple are trademarks of Apple Inc.,
+              registered in the U.S. and other countries. MobileBuildMCP is an independent,
+              open source project by Sentry and is not affiliated with, endorsed by, or
+              sponsored by Apple Inc.
+            </p>
           </div>
         </div>
       </footer>
