@@ -23,7 +23,6 @@ import {
   Cpu,
 } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
 
 interface GitHubStats {
@@ -104,7 +103,6 @@ export default function MobileBuildMCPLanding() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="#" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-              <Image src="/logo.png" alt="MobileBuildMCP" width={28} height={28} className="w-7 h-7" />
               <span className="text-lg font-semibold tracking-tight">MobileBuildMCP</span>
             </Link>
 
@@ -355,8 +353,8 @@ export default function MobileBuildMCPLanding() {
                 desc: "LLDB integration for setting breakpoints, inspecting state, and fixing issues.",
               },
               {
-                src: "/videos/XcodeIDE.mp4",
-                title: "Xcode IDE Integration",
+                src: "/videos/IDE.mp4",
+                title: "IDE Integration",
                 desc: "Seamless integration with Xcode's coding agents and development tools.",
               },
             ].map((video) => (
@@ -810,7 +808,6 @@ sessionDefaults:
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Image src="/logo.png" alt="MobileBuildMCP" width={20} height={20} className="w-5 h-5" />
               <span className="text-sm font-medium">MobileBuildMCP</span>
               <span className="text-sm text-sentry-text-muted">&copy; {new Date().getFullYear()} Sentry</span>
             </div>

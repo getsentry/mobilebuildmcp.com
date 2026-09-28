@@ -351,14 +351,6 @@ html[data-docs-theme='dark'] .docs-root .codeblock {
   text-decoration: none;
   color: var(--fg-headings);
 }
-.docs-root .topbar .brand-logo {
-  display: inline-flex;
-  align-items: center;
-  color: var(--fg-headings);
-}
-.docs-root .topbar .brand-logo svg {
-  display: block;
-}
 .docs-root .topbar .brand-title {
   font-size: 14px;
   font-weight: 500;

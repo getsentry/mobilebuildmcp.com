@@ -11,7 +11,6 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { AgentDemo, AgentDemoStyles } from "./agent-demo";
 import {
@@ -78,13 +77,6 @@ export function WhyMobileBuildMCPPage() {
               href="/"
               className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
             >
-              <Image
-                src="/logo.png"
-                alt="MobileBuildMCP"
-                width={28}
-                height={28}
-                className="h-7 w-7"
-              />
               <span className="text-lg font-semibold tracking-tight">
                 MobileBuildMCP
               </span>
@@ -398,7 +390,6 @@ export function WhyMobileBuildMCPPage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-3">
-              <Image src="/logo.png" alt="MobileBuildMCP" width={20} height={20} className="h-5 w-5" />
               <span className="text-sm font-medium">MobileBuildMCP</span>
               <span className="text-sm text-sentry-text-muted">&copy; {new Date().getFullYear()} Sentry</span>
             </div>
